@@ -1,0 +1,146 @@
+---
+permalink: protect-sco/alternate-ways-install-plug-in-linux-aix.html 
+sidebar: sidebar 
+keywords: alternate methods, install, plug-ins package, linux, aix, remote hosts, cmdlets, cluster host, silent mode, console mode 
+summary: SnapCenter Plug-ins Package for Linux または SnapCenter Plug-ins Package for AIX を別の方法でインストールすることもできます。 
+---
+= Plug-ins Package for Linux / AIXの別のインストール方法
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+コマンドレットまたはCLIを使用して、Plug-ins Package for LinuxまたはAIXを手動でインストールすることもできます。
+
+プラグインを手動でインストールする前に、_ C：\ProgramData\NetApp\SnapCenter \Package Repository_に あるキー* snapcenter public_key.pub *と* snapcenter _ linux_host_plugin.bin .sig *を使用して、バイナリパッケージの署名を検証する必要があります。
+
+
+NOTE: プラグインをインストールするホストに* OpenSSL 1.0.2G*がインストールされていることを確認します。
+
+次のコマンドを実行して、バイナリパッケージの署名を検証します。
+
+* Linuxホストの場合： `openssl dgst -sha256 -verify snapcenter_public_key.pub -signature snapcenter_linux_host_plugin.bin.sig snapcenter_linux_host_plugin.bin`
+* AIXホストの場合： `openssl dgst -sha256 -verify snapcenter_public_key.pub -signature snapcenter_linux_host_plugin.bsx.sig snapcenter_linux_host_plugin.bsx`
+
+
+
+
+== コマンドレットを使用した複数のリモートホストへのインストール
+
+Linux 用 SnapCenter Plug-ins Package または SnapCenter Plug-ins Package for AIX を複数のホストにインストールするには、 _ Install -SmHostPackage_PowerShell コマンドレットを使用する必要があります。
+
+* 必要なもの *
+
+プラグインパッケージをインストールする各ホストで、ローカル管理者の権限を持つドメインユーザとして SnapCenter にログインする必要があります。
+
+* 手順 *
+
+. PowerShellを起動します。
+. SnapCenter サーバホストで、 _Open-SmConnection_cmdlet を使用してセッションを確立し、クレデンシャルを入力します。
+. _ Install -SmHostPackage_cmdlet と、必要なパラメータを使用して、 Linux または SnapCenter Plug-in Package for AIX をインストール SnapCenter します。
++
+プラグインを手動でインストール済みで、プラグインをインストールするための要件をホストが満たしているかどうかを検証しない場合は、 -skipprecheck _ オプションを使用できます。
+
++
+
+NOTE: 事前確認スクリプトでは、ファイアウォールの拒否ルールで指定されているプラグインポートのファイアウォールステータスは検証されません。
+
+. リモートインストールのクレデンシャルを入力します。
+
+
+コマンドレットで使用できるパラメータとその説明については、 RUN_Get-Help コマンド _NAME_ を実行して参照できます。または、を参照することもできます https://docs.netapp.com/us-en/snapcenter-cmdlets/index.html["SnapCenter ソフトウェアコマンドレットリファレンスガイド"^]。
+
+
+
+== クラスタホストにインストール
+
+SnapCenter Plug-ins Package for LinuxまたはSnapCenter Plug-ins Package for AIXは、クラスタホストの両方のノードにインストールする必要があります。
+
+クラスタホストの各ノードには、2つのIPがあります。いずれかのIPがそれぞれのノードのパブリックIPになり、2つ目のIPが両方のノードで共有されるクラスタIPになります。
+
+* 手順 *
+
+. クラスタホストの両方のノードにSnapCenter Plug-ins Package for LinuxまたはSnapCenter Plug-ins Package for AIXをインストールします。
+. SNAPCENTER_server_host 、 SPL_PORT 、 SNAPCENTER_server_port 、および SPL_enabled_plugins パラメータの正しい値が、 /var/opt/snapcenter /spl/etc/_ にある spl.properties ファイルで指定されていることを確認します。
++
+spl.propertiesにspl_enabled_pluginsが指定されていない場合は、spl_enabled_pluginsを追加して値SCO、SCUを割り当てることができます。
+
+. SnapCenter サーバホストで、 _Open-SmConnection_cmdlet を使用してセッションを確立し、クレデンシャルを入力します。
+. 各ノードで、 _Set-PreferredHostIPsInStorageExportPolicy_sccli コマンドおよび必要なパラメータを使用して、ノードの優先 IP を設定します。
+. SnapCenter サーバホストで、クラスタ IP のエントリと、対応する DNS 名を _C ： \Windows\System32\drivers\etc\hosts_に 追加します。
+. ホスト名に対応するクラスタ IP を指定して、 _Add-SmHost_cmdlet を使用して SnapCenter サーバにノードを追加します。
+
+
+ノード1でOracleデータベースを検出し（クラスタIPがノード1でホストされている場合）、データベースのバックアップを作成します。フェイルオーバーが発生した場合は、ノード1に作成されたバックアップを使用して、ノード2にデータベースをリストアできます。ノード1に作成されたバックアップを使用して、ノード2にクローンを作成することもできます。
+
+
+NOTE: 他のSnapCenter処理の実行中にフェイルオーバーが発生すると、古いボリューム、ディレクトリ、およびロックファイルが存在します。
+
+
+
+== Plug-ins Package for Linuxをサイレントモードでインストールする
+
+コマンドラインインターフェイス（CLI）を使用して、SnapCenter Plug-ins Package for Linuxをサイレントモードでインストールできます。
+
+* 必要なもの *
+
+* プラグインパッケージをインストールするための前提条件を確認しておく必要があります。
+* DISPLAY環境変数が設定されていないことを確認する必要があります。
++
+DISPLAY環境変数が設定されている場合は、unset displayを実行してから、プラグインを手動でインストールしてください。
+
+
+
+* このタスクについて *
+
+コンソールモードでのインストール中は必要なインストール情報を指定する必要がありますが、サイレントモードでのインストールでは、インストール情報を指定する必要はありません。
+
+* 手順 *
+
+. SnapCenterサーバのインストール先からSnapCenter Plug-ins Package for Linuxをダウンロードします。
++
+デフォルトのインストールパスは、 _C ： \ProgramData\NetApp\SnapCenter \PackageRepository_です 。このパスには、 SnapCenter サーバがインストールされているホストからアクセスできます。
+
+. コマンドプロンプトで、インストールファイルをダウンロードしたディレクトリに移動します。
+. 実行
++
+`./SnapCenter_linux_host_plugin.bin-i silent-DPORT=8145-DSERVER_IP=SnapCenter_Server_FQDN-DSERVER_HTTPS_PORT=SnapCenter_Server_Port-DUSER_INSTALL_DIR==/opt/custom_path`
+
+. /var/opt/snapcenter /spl/etc/__ にある spl.properties ファイルを編集して、 spl_enabled_plugins/SCO 、 SCU を追加し、 SnapCenter Plug-in Loader サービスを再起動します。
+
+
+
+IMPORTANT: プラグインパッケージのインストールでは、 SnapCenter サーバではなく、ホストにプラグインが登録されます。SnapCenter GUI または PowerShell コマンドレットを使用してホストを追加し、 SnapCenter サーバにプラグインを登録します。ホストの追加時にクレデンシャルとして[None]を選択します。ホストを追加すると、インストールしたプラグインが自動的に検出されます。
+
+
+
+== サイレントモードでのPlug-ins Package for AIXのインストール
+
+コマンドラインインターフェイス（CLI）を使用して、AIX用SnapCenterプラグインパッケージをサイレントモードでインストールできます。
+
+* 必要なもの *
+
+* プラグインパッケージをインストールするための前提条件を確認しておく必要があります。
+* DISPLAY環境変数が設定されていないことを確認する必要があります。
++
+DISPLAY環境変数が設定されている場合は、unset displayを実行してから、プラグインを手動でインストールしてください。
+
+
+
+* 手順 *
+
+. SnapCenterサーバのインストール先からSnapCenter Plug-ins Package for AIXをダウンロードします。
++
+デフォルトのインストールパスは、 _C ： \ProgramData\NetApp\SnapCenter \PackageRepository_です 。このパスには、 SnapCenter サーバがインストールされているホストからアクセスできます。
+
+. コマンドプロンプトで、インストールファイルをダウンロードしたディレクトリに移動します。
+. 実行
++
+`./snapcenter_aix_host_plugin.bsx-i silent-DPORT=8145-DSERVER_IP=SnapCenter_Server_FQDN-DSERVER_HTTPS_PORT=SnapCenter_Server_Port-DUSER_INSTALL_DIR==/opt/custom_path-DINSTALL_LOG_NAME=SnapCenter_AIX_Host_Plug-in_Install_MANUAL.log-DCHOSEN_FEATURE_LIST=CUSTOMDSPL_USER=install_user`
+
+. /var/opt/snapcenter /spl/etc/__ にある spl.properties ファイルを編集して、 spl_enabled_plugins/SCO 、 SCU を追加し、 SnapCenter Plug-in Loader サービスを再起動します。
+
+
+
+IMPORTANT: プラグインパッケージのインストールでは、 SnapCenter サーバではなく、ホストにプラグインが登録されます。SnapCenter GUI または PowerShell コマンドレットを使用してホストを追加し、 SnapCenter サーバにプラグインを登録します。ホストの追加時にクレデンシャルとして[None]を選択します。ホストを追加すると、インストールしたプラグインが自動的に検出されます。

@@ -1,0 +1,31 @@
+---
+permalink: protect-sco/task_split_clone_of_a_pluggable_database.html 
+sidebar: sidebar 
+keywords: split, PDB, cloned PDB 
+summary: SnapCenter を使用して、クローニングされた Pluggable Database \ （ PDB\ ）をスプリットできます。 
+---
+= プラガブルデータベースのスプリットクローン
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+SnapCenterを使用して、プラガブルデータベース（PDB）のクローンをスプリットできます。
+
+* このタスクについて *
+
+PDBがクローニングされるターゲットCDBのバックアップを作成した場合、PDBクローンをスプリットすると、クローニングされたPDBがそのPDBを含むターゲットCDBのすべてのバックアップからも削除されます。
+
+
+NOTE: PDBクローンは、インベントリビューまたはリソースビューに表示されません。
+
+* 手順 *
+
+. 左側のナビゲーションペインで、 * リソース * をクリックし、リストから適切なプラグインを選択します。
+. リソースビューまたはリソースグループビューからソースコンテナデータベース（CDB）を選択します。
+. [ コピーの管理 ] ビューで ' プライマリまたはセカンダリ（ミラーまたはレプリケートされた）ストレージ・システムから [ クローン *] を選択します
+. PDBクローン（targetCDB：PDBClone）を選択し、をクリックします image:../media/split_cone.gif[""]。
+. スプリットするクローンの推定サイズとアグリゲートで使用可能なスペースを確認し、 * Start * をクリックします。
+. 操作の進行状況を監視するには、 * Monitor * > * Jobs * をクリックします。
+

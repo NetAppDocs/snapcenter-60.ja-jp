@@ -1,0 +1,18 @@
+---
+permalink: protect-sco/verify-backups.html 
+sidebar: sidebar 
+keywords: oracle databases backup 
+summary: プライマリストレージボリュームまたはセカンダリストレージボリュームを使用してバックアップコピーを検証します。 
+---
+= バックアップコピーを検証する場所
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+バックアップコピーは、プライマリストレージボリューム、またはSnapMirrorまたはSnapVaultセカンダリストレージボリュームで検証できます。セカンダリストレージボリュームを使用した検証により、プライマリストレージボリュームの負荷が軽減されます。
+
+プライマリストレージボリュームまたはセカンダリストレージボリュームにあるバックアップを検証すると、すべてのプライマリSnapshotとセカンダリSnapshotが検証済みとマークされます。
+
+SnapMirrorおよびSnapVaultセカンダリストレージボリューム上のバックアップコピーを検証するには、SnapRestoreライセンスが必要です。

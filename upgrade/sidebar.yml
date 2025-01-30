@@ -1,0 +1,14 @@
+---
+section: upgrade
+title: SnapCenterサーバとプラグインのアップグレード
+entries:
+- title: 利用可能なアップデートを確認するためのSnapCenterの設定
+  url: "/upgrade/task_configure_snapcenter_to_check_for_available_updates.html"
+- title: アップグレードワークフロー
+  url: "/upgrade/upgrade_workflow.html"
+- title: WindowsホストでのSnapCenterサーバのアップグレード
+  url: "/upgrade/task_upgrade_snapcenter.html"
+- title: LinuxホストでのSnapCenterサーバのアップグレード
+  url: "/upgrade/upgrade_snapcenter_server_linux.html"
+- title: プラグインパッケージのアップグレード
+  url: "/upgrade/task_upgrade_your_plug_in_packages.html"

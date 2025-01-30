@@ -1,0 +1,50 @@
+---
+permalink: protect-hana/reference_types_of_restore_performed_for_auto_discovered_sap_hana_databases.html 
+sidebar: sidebar 
+keywords: SnapCenter Plug-in for SAP HANA Databases 
+summary: SnapCenter では、自動検出された SAP HANA データベースについて、ボリュームベースの SnapRestore （ VBSR ）、単一ファイル SnapRestore 、および接続とコピーのリストアタイプがサポートされます。 
+---
+= 自動検出されたSAP HANAデータベースのリストア処理のタイプ
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+SnapCenterでは、自動検出されたSAP HANAデータベースに対して、ボリュームベースSnapRestore（VBSR）、単一ファイルSnapRestore、および接続とコピーのリストアタイプがサポートされます。
+
+
+
+== ボリュームベースSnapRestore（VBSR）は、NFS環境で次のシナリオで実行されます。
+
+* リストア用に選択されたバックアップが SnapCenter 4.3 より前のリリースで実行され '** Complete Resource** オプションが選択されている場合のみ
+* リストア用に選択されたバックアップが SnapCenter 4.3 で選択されていて、 * Volume Revert * オプションが選択されている場合
+
+
+
+
+== NFS環境でSingle File SnapRestoreを実行するシナリオは、次のとおりです。
+
+* リストア用に選択したバックアップが SnapCenter 4.3 で実行されていて、 [ リソースを完全にバックアップ ] オプションのみが選択されている場合
+* マルチテナントデータベースコンテナ（ MDC ）の場合は、リストア対象に選択されたバックアップが SnapCenter 4.3 で作成され、「 * テナントデータベース * 」オプションが選択されているとみなされます
+* バックアップを SnapMirror または SnapVault セカンダリの場所から選択し、 * Complete Resource * オプションが選択されている場合
+
+
+
+
+== 単一ファイル SnapRestore は、次のような状況で SAN 環境で実行されます。
+
+* SnapCenter 4.3 より前のリリースでバックアップを作成する場合、 [ リソースの完了 ] オプションが選択されている場合のみ
+* SnapCenter 4.3 でバックアップを実行する場合、 * Complete Resource * オプションが選択されている場合のみ
+* SnapMirror または SnapVault セカンダリストレージからバックアップを選択し、 * Complete Resource * オプションを選択した場合
+
+
+
+
+== 接続およびコピーベースのリストアは、SAN環境で次のシナリオで実行されます。
+
+* MDC の場合は、リストア用に選択されたバックアップが SnapCenter 4.3 で作成され、 * テナントデータベース * オプションが選択されている場合
+
+
+
+NOTE: * リソース全体 * 、 * ボリューム復帰 * 、 * テナントデータベース * の各オプションは、 [ リストア範囲 ] ページから選択できます。

@@ -1,0 +1,22 @@
+---
+permalink: protect-sce/concept_what_you_can_do_with_snapcenter_plug_in_for_microsoft_exchange_server.html 
+sidebar: sidebar 
+keywords: SnapCenter Plug-in for Microsoft Exchange Server 
+summary: Plug-in for Exchangeを使用して、Exchange Serverデータベースのバックアップとリストアを実行できます。 
+---
+= SnapCenter Plug-in for Microsoft Exchange Serverの機能
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Plug-in for Exchangeを使用して、Exchange Serverデータベースのバックアップとリストアを実行できます。
+
+* Exchange Database Availability Group（DAG；データベース可用性グループ）、データベース、およびレプリカセットのアクティブなインベントリの表示と管理
+* バックアップ自動化の保護設定を提供するポリシーを定義
+* リソースグループへのポリシーの割り当て
+* 個 々 のDAGとデータベースを保護
+* プライマリおよびセカンダリのExchangeメールボックスデータベースをバックアップする
+* プライマリバックアップとセカンダリバックアップからのデータベースのリストア
+

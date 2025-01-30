@@ -1,0 +1,89 @@
+---
+permalink: protect-sco/reference_minimum_ontap_privileges_required_for_oracle_plug_in.html 
+sidebar: sidebar 
+keywords: ONTAP privileges 
+summary: 必要な最小 ONTAP 権限は、データ保護に使用する SnapCenter プラグインによって異なります。 
+---
+= Plug-in for Oracleに必要な最小ONTAP Privileges
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+必要な最小 ONTAP 権限は、データ保護に使用する SnapCenter プラグインによって異なります。
+
+* フルアクセスコマンド： ONTAP 8.3.0 以降で必要な最小権限
++
+** event generate-autosupport-log
+** ジョブ履歴の表示
+** ジョブの停止
+** LUN
+** lun attribute show
+** LUNの作成
+** lun delete
+** LUNジオメトリ
+** LUN igroupの追加
+** lun igroup create
+** lun igroup delete
+** LUN igroupの名前変更
+** lun igroup show
+** LUNマッピングの追加-レポートノード
+** LUNマッピングの作成
+** LUNマッピングの削除
+** lun mapping remove-reporting-nodes
+** lun mapping show
+** LUN変更
+** ボリューム内でのLUNの移動
+** LUNオフライン
+** LUNオンライン
+** LUN永続的予約のクリア
+** LUNのサイズ変更
+** LUNシリアル
+** lun show
+** SnapMirrorポリシーadd-rule
+** snapmirror policy modify-rule
+** snapmirror policy remove-rule
+** snapmirror policy show
+** SnapMirrorリストア
+** SnapMirrorショー
+** SnapMirror show-history
+** SnapMirrorの更新
+** SnapMirror update-ls-set
+** snapmirror list-destinations
+** バージョン
+** ボリュームのクローン作成
+** volume clone show
+** ボリュームクローンスプリットの開始
+** ボリュームクローンスプリットの停止
+** ボリュームの作成
+** ボリュームの削除
+** volume file clone create
+** volume file show-disk-usage
+** ボリュームはオフライン
+** ボリュームはオンライン
+** ボリュームの変更
+** ボリュームqtreeの作成
+** volume qtree delete
+** volume qtree modify
+** volume qtree show
+** ボリュームの制限
+** volume show
+** ボリュームSnapshotの作成
+** ボリュームSnapshotの削除
+** ボリュームSnapshotの変更
+** ボリュームSnapshotの名前変更
+** ボリュームSnapshotリストア
+** ボリュームSnapshotリストア-ファイル
+** volume snapshot show
+** ボリュームのアンマウント
+** SVM
+** SVM CIFS
+** vserver cifs shadowcopy show
+** vserver show
+** ネットワークインターフェイス
+** network interface show
+** MetroClusterショー
+
+
+

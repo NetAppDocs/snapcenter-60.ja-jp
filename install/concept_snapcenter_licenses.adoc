@@ -1,0 +1,104 @@
+---
+permalink: install/concept_snapcenter_licenses.html 
+sidebar: sidebar 
+keywords: licenses, FAS, AFF, ASA, SnapMirror, SnapVault, SnapRestore, FlexClone, SMBR, Single Mailbox Recovery 
+summary: SnapCenter でデータ保護処理を有効にするには、複数のライセンスが必要です。インストールする SnapCenter ライセンスのタイプは、ストレージ環境および使用する機能によって異なります。 
+---
+= SnapCenterライセンス
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+SnapCenterでは、アプリケーション、データベース、ファイルシステム、仮想マシンのデータ保護を実現するために複数のライセンスが必要です。インストールするSnapCenterライセンスのタイプは、ストレージ環境および使用する機能によって異なります。
+
+|===
+| ライセンス | 必要な場合 
+
+
+ a| 
+SnapCenter Standard（コントローラベース）
+ a| 
+FAS、AFF、オールSANアレイ（ASA）に必要
+
+SnapCenter Standardライセンスはコントローラベースのライセンスで、ONTAP Oneに含まれています。SnapManager Suiteライセンスをお持ちの場合は、SnapCenter Standardライセンスの使用権も取得できます。FAS、AFF、またはASAストレージにSnapCenterの試用版をインストールする場合は、営業担当者にお問い合わせください。ONTAP Oneの評価版ライセンスを入手できます。
+
+ONTAP Oneに含まれるライセンスについては、を参照してください https://docs.netapp.com/us-en/ontap/system-admin/manage-licenses-concept.html#licenses-included-with-ontap-one["ONTAP Oneに含まれるライセンス"]。
+
+
+NOTE: SnapCenterは、Data Protection Bundleの一部としても提供されます。A400以降を購入済みの場合は、Data Protection Bundleを購入する必要があります。
+
+
+
+ a| 
+SnapMirrorまたはSnapVault
+ a| 
+ONTAP
+
+SnapCenterでレプリケーションが有効になっている場合は、SnapMirrorまたはSnapVaultのいずれかのライセンスが必要です。
+
+
+
+ a| 
+SnapRestore
+ a| 
+バックアップのリストアと検証に必要です。
+
+フライマリストレエシシステム
+
+* リモート検証を実行し、バックアップからのリストアを実行するには、SnapVaultデスティネーションシステムに必要です。
+* リモート検証を実行するには、SnapMirrorデスティネーションシステムに必要です。
+
+
+
+
+ a| 
+FlexClone
+ a| 
+データベースのクローニングおよび検証処理に必要です。
+
+フライマリストレシシステムトセカンタリストレシシステム
+
+* セカンダリバックアップからクローンを作成するには、SnapVaultデスティネーションシステムに必要です。
+* セカンダリSnapMirrorバックアップからクローンを作成するには、SnapMirrorデスティネーションシステムに必要です。
+
+
+
+
+ a| 
+プロトコル
+ a| 
+* LUNのiSCSIまたはFCライセンス
+* SMB共有用のCIFSライセンス
+* NFSタイプのVMDK用のNFSライセンス
+* VMFSタイプのVMDK用のiSCSIまたはFCライセンス
+
+
+ソースボリュームを使用できない場合にデータを提供するには、SnapMirrorデスティネーションシステムに必要です。
+
+
+
+ a| 
+SnapCenter Standardライセンス（オプション）
+ a| 
+セカンダリデスティネーション
+
+
+NOTE: セカンダリデスティネーションにSnapCenter Standardライセンスを追加することを推奨しますが、必須ではありません。セカンダリデスティネーションでSnapCenter Standardライセンスが有効になっていない場合、フェイルオーバー処理の実行後にSnapCenterを使用してセカンダリデスティネーションでリソースをバックアップすることはできません。ただし、クローン処理と検証処理を実行するには、セカンダリデスティネーションにFlexCloneライセンスが必要です。
+
+|===
+
+NOTE: SnapCenter AdvancedとSnapCenter NASファイルサービスのライセンスは廃止され、現在は提供されていません。Amazon FSx for NetApp ONTAP、ONTAP Select、Cloud Volumes ONTAP、Azure NetApp Filesに標準ライセンスと容量ベースライセンスは不要になりました。
+
+1つ以上のSnapCenterライセンスをインストールする必要があります。ライセンスの追加方法については、を参照してください link:../install/concept_snapcenter_standard_controller_based_licenses.html["SnapCenter Standardコントローラベースライセンスを追加"]。
+
+
+
+== Single Mailbox Recovery（SMBR）ライセンス
+
+SnapCenter Plug-in for Exchangeを使用してMicrosoft Exchange ServerデータベースおよびSingle Mailbox Recovery（SMBR）を管理する場合は、SMBR用の追加ライセンスが必要です。このライセンスはユーザのメールボックスに基づいて別途購入する必要があります。
+
+NetApp®Single Mailbox Recoveryは、2023年5月12日に販売終了（EOA）になりました。詳細については、を参照してください link:https://mysupport.netapp.com/info/communications/ECMLP2885729.html["CPC-00507"]。NetAppは、2020年6月24日に導入されたマーケティング用パーツ番号を通じて、メールボックスの容量、メンテナンス、サポートを購入したお客様をサポート対象期間中も引き続きサポートします。
+
+NetApp Single Mailbox Recoveryは、Ontrackが提供するパートナー製品です。Ontrack PowerControlsには、NetApp Single Mailbox Recoveryと同様の機能が用意されています。お客様は、新しいOntrack PowerControlsソフトウェアライセンスとOntrack PowerControlsメンテナンスおよびサポートの更新をOntrackから（licensingteam@ontrack.com経由で）調達し、2023年5月12日のEOA日以降にメールボックスをきめ細かくリカバリできます。

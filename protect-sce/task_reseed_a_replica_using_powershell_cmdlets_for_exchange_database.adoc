@@ -1,0 +1,42 @@
+---
+permalink: protect-sce/task_reseed_a_replica_using_powershell_cmdlets_for_exchange_database.html 
+sidebar: sidebar 
+keywords: SnapCenter plug-in for Exchange Server 
+summary: PowerShellコマンドレットを使用すると、同じホスト上の最新のコピーまたは代替ホストからの最新のコピーを使用して、正常でないレプリカをリストアできます。 
+---
+= ExchangeデータベースヨウノPowerShellコマントレツトヲシヨウシタレプリカノサイシード
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+PowerShellコマンドレットを使用すると、同じホスト上の最新のコピーまたは代替ホストからの最新のコピーを使用して、正常でないレプリカをリストアできます。
+
+コマンドレットで使用できるパラメータとその説明については、 RUN_Get-Help コマンド _NAME_ を実行して参照できます。または、を参照することもできます https://docs.netapp.com/us-en/snapcenter-cmdlets/index.html["SnapCenter ソフトウェアコマンドレットリファレンスガイド"^]。
+
+.手順
+. コマンドレットを使用して、指定したユーザでSnapCenterサーバとの接続セッションを開始します `Open-SmConnection` 。
++
+[listing]
+----
+Open-smconnection  -SMSbaseurl  https:\\snapctr.demo.netapp.com:8146/
+----
+. コマンドレットを使用して、データベースを再シードし `reseed-SmDagReplicaCopy` ます。
++
+この例では、ホスト「mva-rx200.netapp.com"」上のexecdbというデータベースの失敗したコピーを、そのホスト上の最新のバックアップを使用して再シードします。
+
++
+[listing]
+----
+reseed-SmDagReplicaCopy -ReplicaHost "mva-rx200.netapp.com" -Database execdb
+----
++
+この例では、代替ホスト「mva-rx201.netapp.com."」上のデータベース（production/copy）の最新のバックアップを使用して、execdbという名前のデータベースの失敗したコピーを再シードします。
+
++
+[listing]
+----
+reseed-SmDagReplicaCopy -ReplicaHost "mva-rx200.netapp.com" -Database  execdb -BackupHost "mva-rx201.netapp.com"
+----
+

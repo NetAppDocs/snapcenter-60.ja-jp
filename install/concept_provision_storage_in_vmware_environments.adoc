@@ -1,0 +1,139 @@
+---
+permalink: install/concept_provision_storage_in_vmware_environments.html 
+sidebar: sidebar 
+keywords: guest OS, VMware ESXi server, limitations, RDM, Microsoft cluster 
+summary: VMware 環境での SnapCenter Plug-in for Microsoft Windows を使用して、 LUN の作成と管理、および Snapshot バックアップコピーの管理を行うことができます。 
+---
+= VMware環境でのストレージのプロビジョニング
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+VMware環境では、SnapCenter Plug-in for Microsoft Windowsを使用して、LUNの作成と管理やSnapshotの管理を行うことができます。
+
+
+
+== サポートされるVMwareゲストOSプラットフォーム
+
+* サポートされているバージョンのWindows Server
+* Microsoftクラスタ構成
++
+VMwareでサポートされるノードは、Microsoft iSCSI Software Initiatorを使用する場合は最大16、FCを使用する場合は最大2つです。
+
+* RDM LUN
++
+通常のRDMでは、最大56のRDM LUNと4つのLSI Logic SCSIコントローラ、またはVMware VM MSCSのボックスツーボックスPlug-in for Windows構成では42のRDM LUNと3つのLSI Logic SCSIコントローラがサポートされます。
+
++
+VMware準仮想SCSIコントローラをサポートします。RDMディスクでは256本のディスクをサポートできます。
+
+
+
+サポートされているバージョンの最新情報については、を参照してください https://imt.netapp.com/matrix/imt.jsp?components=121034;&solution=1517&isHWU&src=IMT["NetApp Interoperability Matrix Tool"^]。
+
+
+
+=== VMware ESXiサーバ関連の制限事項
+
+* 仮想マシンのMicrosoftクラスタにPlug-in for Windowsをインストールする場合、ESXiクレデンシャルを使用することはできません。
++
+クラスタ化された仮想マシンにPlug-in for Windowsをインストールするときは、vCenterのクレデンシャルを使用する必要があります。
+
+* すべてのクラスタノードで、同じクラスタディスクに対して同じターゲットID（仮想SCSIアダプタ上）を使用する必要があります。
+* Plug-in for Windowsの外部でRDM LUNを作成した場合は、プラグインサービスを再起動して、新しく作成したディスクを認識できるようにする必要があります。
+* VMwareゲストOSでiSCSIイニシエータとFCイニシエータを同時に使用することはできません。
+
+
+
+
+=== SnapCenter RDMの処理に必要な最小限のvCenter Privileges
+
+ゲストOSでRDM処理を実行するには、ホストに次のvCenter Privilegesが必要です。
+
+* データストア：ファイルを削除します
+* ホスト： [Configuration] > [Storage Partition] の順に選択します
+* 仮想マシン：構成
+
+
+これらの権限は、Virtual Center Serverレベルのロールに割り当てる必要があります。これらの権限を割り当てたロールを、root権限を持たないユーザに割り当てることはできません。
+
+これらの権限を割り当てたら、ゲスト OS に Plug-in for Windows をインストールできます。
+
+
+
+== MicrosoftクラスタのFC RDM LUNを管理します。
+
+Plug-in for Windowsを使用して、FC RDM LUNを使用するMicrosoftクラスタを管理できますが、まずプラグインの外部で共有RDMクォーラムと共有ストレージを作成し、クラスタ内の仮想マシンにディスクを追加する必要があります。
+
+ESXi 5.5以降では、ESX iSCSIおよびFCoEハードウェアを使用してMicrosoftクラスタを管理することもできます。Plug-in for Windows では、設定作業なしで Microsoft クラスタがサポートされます。
+
+
+
+=== 要件
+
+Plug-in for Windows では、特定の構成要件を満たしていれば、 2 つの異なる ESX サーバまたは ESXi サーバに属する 2 台の仮想マシンで構成された Microsoft クラスタで FC RDM LUN の使用がサポートされます。この構成は、クラスタ全体のボックスとも呼ばれます。
+
+* 仮想マシン（VM）で同じバージョンのWindows Serverを実行している必要があります。
+* ESXまたはESXiサーバのバージョンは、各VMware親ホストで同じである必要があります。
+* 各親ホストには、少なくとも2つのネットワークアダプタが必要です。
+* 2台のESXサーバまたはESXiサーバ間でVMware Virtual Machine File System（VMFS）データストアを少なくとも1つ共有する必要があります。
+* VMwareでは、共有データストアをFC SAN上に作成することを推奨しています。
++
+必要に応じて、共有データストアをiSCSI経由で作成することもできます。
+
+* 共有RDM LUNが物理互換モードになっている必要があります。
+* 共有 RDM LUN は、 Plug-in for Windows の外部で手動で作成する必要があります。
++
+共有ストレージに仮想ディスクを使用することはできません。
+
+* SCSIコントローラは、クラスタ内の各仮想マシンで物理互換モードで構成する必要があります。
++
+Windows Server 2008 R2では、各仮想マシンでLSI Logic SAS SCSIコントローラを構成する必要があります。LSI Logic SASコントローラのタイプが1つしかなく、すでにC：ドライブに接続されている場合、共有LUNで既存のLSI Logic SASコントローラを使用することはできません。
+
++
+準仮想タイプのSCSIコントローラは、VMware Microsoftクラスタではサポートされていません。
+
++
+
+NOTE: 物理互換モードで仮想マシン上の共有 LUN に SCSI コントローラを追加する場合は、 VMware Infrastructure Client の * Create a new disk* オプションではなく、 * Raw Device Mappings * （ RDM ）オプションを選択する必要があります。
+
+* Microsoft仮想マシンクラスタをVMwareクラスタに含めることはできません。
+* Microsoft クラスタに属する仮想マシンに Plug-in for Windows をインストールする場合は、 ESX または ESXi のクレデンシャルではなく vCenter のクレデンシャルを使用する必要があります。
+* Plug-in for Windows では、複数のホストのイニシエータを含む igroup を作成することはできません。
++
+共有クラスタディスクとして使用するRDM LUNを作成する前に、すべてのESXiホストのイニシエータを含むigroupをストレージコントローラ上に作成する必要があります。
+
+* ESXi 5.0では、FCイニシエータを使用してRDM LUNを作成します。
++
+RDM LUNを作成すると、ALUAを使用してイニシエータグループが作成されます。
+
+
+
+
+
+=== 制限事項
+
+Plug-in for Windowsでは、異なるESXサーバまたはESXiサーバに属する異なる仮想マシン上のFC / iSCSI RDM LUNを使用するMicrosoftクラスタがサポートされます。
+
+
+NOTE: この機能は、ESX 5.5iより前のリリースではサポートされていません。
+
+* Plug-in for Windowsでは、ESX iSCSIおよびNFSデータストア上のクラスタはサポートされません。
+* Plug-in for Windowsでは、クラスタ環境でのイニシエータの混在はサポートされません。
++
+イニシエータはFCとMicrosoft iSCSIのどちらかである必要があります。両方は使用できません。
+
+* ESX iSCSIイニシエータとHBAは、Microsoftクラスタ内の共有ディスクではサポートされていません。
+* Plug-in for Windowsでは、仮想マシンがMicrosoftクラスタに含まれている場合、vMotionを使用した仮想マシンの移行はサポートされません。
+* Plug-in for Windowsでは、Microsoftクラスタ内の仮想マシンでのMPIOはサポートされません。
+
+
+
+
+=== 共有FC RDM LUNの作成
+
+FC RDM LUNを使用してMicrosoftクラスタ内のノード間でストレージを共有するには、まず共有クォーラムディスクと共有ストレージディスクを作成し、それらをクラスタ内の両方の仮想マシンに追加する必要があります。
+
+共有ディスクの作成に Plug-in for Windows は使用しません。共有LUNを作成し、クラスタ内の各仮想マシンに追加する必要があります。詳細については、を参照してください https://docs.vmware.com/en/VMware-vSphere/6.7/com.vmware.vsphere.mscs.doc/GUID-1A2476C0-CA66-4B80-B6F9-8421B6983808.html["物理ホスト間で仮想マシンをクラスタ化します"^]。

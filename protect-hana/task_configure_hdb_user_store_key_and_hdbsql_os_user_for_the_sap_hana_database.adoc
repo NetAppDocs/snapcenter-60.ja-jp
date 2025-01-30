@@ -1,0 +1,38 @@
+---
+permalink: protect-hana/task_configure_hdb_user_store_key_and_hdbsql_os_user_for_the_sap_hana_database.html 
+sidebar: sidebar 
+keywords: HDB User Store Key, HDBSQL OS User, SAP HANA database 
+summary: SAP HANAデータベースでデータ保護処理を実行するには、HDBユーザストアキーとHDBSQL OSユーザを設定する必要があります。 
+---
+= SAP HANAデータベースのHDBユーザストアキーとHDBSQL OSユーザを設定
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+SAP HANAデータベースでデータ保護処理を実行するには、HDBユーザストアキーとHDBSQL OSユーザを設定する必要があります。
+
+.開始する前に
+* SAP HANAデータベースにHDBのセキュアなユーザストアキーが設定されておらず、HDB SQL OSユーザが設定されていない場合は、自動検出されたリソースに対してのみ赤い南京錠アイコンが表示されます。以降の検出処理で、設定されているHDBのセキュアなユーザストアキーが正しくないか、データベース自体へのアクセスが提供されていないことが判明した場合は、赤い南京錠のアイコンが再度表示されます。
+* データベースを保護できるようにHDBのセキュアなユーザストアキーとHDB SQL OSユーザを設定するか、またはデータベースをリソースグループに追加してデータ保護処理を実行する必要があります。
+* システムデータベースにアクセスするには、HDB SQL OSユーザを設定する必要があります。テナントデータベースにのみアクセスするようにHDB SQL OSユーザが設定されている場合、検出処理は失敗します。
+
+
+.手順
+. 左側のナビゲーションペインで、 * リソース * をクリックし、リストから SnapCenter Plug-in for SAP HANA Database を選択します。
+. [ リソース ] ページで、 [ * 表示 * ] リストからリソースタイプを選択します。
+. （オプション）をクリックし image:../media/filter_icon.png["フィルタアイコン"] 、ホスト名を選択します。
++
+そのあとにimage:../media/filter_icon.png["フィルタアイコン"]をクリックすると、フィルタ ペインが閉じます。
+
+. データベースを選択し、 * データベースの設定 * をクリックします。
+. [Configure database settings]セクションで、「HDB Secure User Store Key」と入力します。
++
+
+NOTE: プラグインのホスト名が表示され、 HDB SQL OS ユーザーが <sid>adm に自動的に入力されます。
+
+. [OK]*をクリックします。
+
+
+[Topology]ページでデータベース設定を変更できます。

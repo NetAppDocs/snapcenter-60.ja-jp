@@ -1,0 +1,216 @@
+---
+permalink: protect-nsp/prerequisites_to_adding_hosts_and_installing_netapp_supported_plugins.html 
+sidebar: sidebar 
+keywords: credentials 
+summary: ホストを追加してプラグインパッケージをインストールする前に、すべての要件を満たしておく必要があります。NetAppでサポートされているプラグインは、Windows、Linux、AIXの両方の環境で使用できます。 
+---
+= ホストを追加してPlug-in Package for Windows、Linux、AIXをインストールするための前提条件
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+ホストを追加してプラグインパッケージをインストールする前に、すべての要件を満たしておく必要があります。NetAppでサポートされるプラグインは、Windows、Linux、AIXの各環境でサポートされます。
+
+
+NOTE: AIXでは、ストレージアプリケーションとOracleアプリケーションがサポートされます。
+
+* Java 11をLinux、Windows、またはAIXのホストにインストールしておく必要があります。
+* Windowsホストにプラグインをインストールするときに、組み込みでないクレデンシャルを指定する場合や、ユーザがローカルワークグループに属している場合は、ホストのUACを無効にする必要があります。
+* NetAppでサポートされるプラグイン（MongoDB、ORASCPM、Oracle Applications、SAP ASE、SAP MaxDB、Storageなど）が、ホストの追加処理を実行するクライアントホストに配置されている必要があります。
+
+
+
+
+== 全般
+
+iSCSIを使用している場合は、iSCSIサービスが実行されている必要があります。
+
+
+
+== Windowsホスト
+
+* ローカル管理者Privilegesを持つドメインユーザと、リモートホストに対するローカルログイン権限が必要です。
+* SnapCenterでクラスタノードを管理する場合は、クラスタ内のすべてのノードに対する管理Privilegesを持つユーザが必要です。
+* SnapCenter Plug-in for Microsoft Windowsを手動で選択する必要があります。
+
+
+
+
+== LinuxホストとAIXホスト
+
+
+NOTE: AIXでは、ストレージアプリケーションとOracleアプリケーションがサポートされます。
+
+* rootユーザまたはroot以外のユーザに対してパスワードベースのSSH接続を有効にしておく必要があります。
+* Java 11をLinuxホストにインストールしておく必要があります。
++
+SnapCenter ServerホストにWindows Server 2019またはWindows Server 2016を使用している場合は、Java 11をインストールする必要があります。要件の最新情報については、Interoperability Matrix Tool（IMT）を参照してください。
+
++
+http://www.java.com/en/download/manual.jsp["すべてのオペレーティングシステム用のJavaダウンロード"]
+
++
+https://imt.netapp.com/matrix/imt.jsp?components=117018;&solution=1259&isHWU&src=IMT["NetApp Interoperability Matrix Tool"]
+
+* いくつかのパスにアクセスできるようにroot以外のユーザにsudo Privilegesを設定する必要があります。visudo Linuxユーティリティを使用して、/etc/sudoersファイルに次の行を追加します。
++
+
+NOTE: Sudoバージョン1.8.7以降を使用していることを確認します。
+
++
+[listing, subs="+quotes"]
+----
+Cmnd_Alias HPPLCMD = sha224:checksum_value== /home/_LINUX_USER_/.sc_netapp/snapcenter_linux_host_plugin.bin, /opt/NetApp/snapcenter/spl/installation/plugins/uninstall, /opt/NetApp/snapcenter/spl/bin/spl, /opt/NetApp/snapcenter/scc/bin/scc
+Cmnd_Alias PRECHECKCMD = sha224:checksum_value== /home/_LINUX_USER_/.sc_netapp/Linux_Prechecks.sh
+Cmnd_Alias CONFIGCHECKCMD = sha224:checksum_value== /opt/NetApp/snapcenter/spl/plugins/scu/scucore/configurationcheck/Config_Check.sh
+Cmnd_Alias SCCMD = sha224:checksum_value== /opt/NetApp/snapcenter/spl/bin/sc_command_executor
+Cmnd_Alias SCCCMDEXECUTOR =checksum_value== /opt/NetApp/snapcenter/scc/bin/sccCommandExecutor
+_LINUX_USER_ ALL=(ALL) NOPASSWD:SETENV: HPPLCMD, PRECHECKCMD, CONFIGCHECKCMD, SCCCMDEXECUTOR, SCCMD
+Defaults: _LINUX_USER_ !visiblepw
+Defaults: _LINUX_USER_ !requiretty
+----
++
+_linux_user_は、作成したroot以外のユーザの名前です。
+
++
+_checksum_value_は、次の場所にある* sc_unix_plugins_checksum.txt *ファイルから取得できます。
+
++
+** _C：\ProgramData\NetApp\SnapCenter\Package Repository\SC_UNIX_plugins_checksum.txt_ SnapCenter ServerがWindowsホストにインストールされている場合。
+** _/opt/NetApp/snapcenter/SnapManagerWeb/Repository/sc _ unix_plugins_checksum.txt _ SnapCenterサーバーがLinuxホストにインストールされている場合。
++
+
+IMPORTANT: この例は、独自のデータを作成するための参照としてのみ使用してください。
+
+
+
+
+
+
+
+== AIXホストの要件
+
+SnapCenter Plug-ins Package for AIXをインストールする前に、ホストが要件を満たしていることを確認する必要があります。
+
+
+NOTE: AIXでは、ストレージアプリケーションとOracleアプリケーションがサポートされます。
+
+
+NOTE: SnapCenter Plug-in for UNIXはSnapCenter Plug-ins Package for AIXに含まれており、同時ボリュームグループはサポートされません。
+
+|===
+| 項目 | 要件 
+
+
+ a| 
+オペレーティングシステム
+ a| 
+AIX 7.1以降
+
+
+
+ a| 
+ホスト上のSnapCenterプラグイン用の最小RAM
+ a| 
+4 GB
+
+
+
+ a| 
+ホスト上のSnapCenterプラグインのインストールとログの最小スペース
+ a| 
+2 GB
+
+
+NOTE: 十分なディスクスペースを割り当て、logsフォルダによるストレージ消費量を監視する必要があります。必要なログスペースは、保護対象のエンティティの数とデータ保護処理の頻度によって異なります。十分なディスクスペースがない場合、最近実行した処理のログは作成されません。
+
+
+
+ a| 
+必要なソフトウェアパッケージ
+ a| 
+Java 11 IBM Java
+
+を最新バージョンにアップグレードした場合は、/var/opt/java/spl/etc/ spl.propertiesにあるJAVA_HOMEオプションが正しいSnapCenterバージョンと正しいパスに設定されていることを確認する必要があります。
+
+|===
+サポートされているバージョンの最新情報については、を参照して https://imt.netapp.com/matrix/imt.jsp?components=121073;&solution=1257&isHWU&src=IMT["NetApp Interoperability Matrix Tool"^]ください。
+
+
+
+=== AIXホストのroot以外のユーザに対するsudo Privilegesの設定
+
+SnapCenter 4.4以降では、root以外のユーザがSnapCenter Plug-ins Package for AIXをインストールしてプラグインプロセスを開始できます。プラグインプロセスをroot以外の有効なユーザとして実行します。複数のパスにアクセスできるようにroot以外のユーザにsudo Privilegesを設定する必要があります。
+
+* 必要なもの *
+
+* sudoバージョン1.8.7以降
+* /etc/ssh/sshd_config_file を編集して、メッセージ認証コードアルゴリズム MACs HMAC-sha2-256 および MACs HMAC-sha2-512 を設定します。
++
+構成ファイルの更新後にsshdサービスを再起動します。
+
++
+例：
+
++
+[listing]
+----
+#Port 22
+#AddressFamily any
+#ListenAddress 0.0.0.0
+#ListenAddress ::
+#Legacy changes
+#KexAlgorithms diffie-hellman-group1-sha1
+#Ciphers aes128-cbc
+#The default requires explicit activation of protocol
+Protocol 2
+HostKey/etc/ssh/ssh_host_rsa_key
+MACs hmac-sha2-256
+----
+
+
+* このタスクについて *
+
+次のパスにアクセスできるようにroot以外のユーザにsudo権限を設定する必要があります。
+
+* /home/_aix_user_//.sc_netapp /snapcenter aix_host_plugin.bsx
+* /custom_location /NetApp/snapcenter/spl/installation/plugins/uninstall
+* /custom_location /NetApp/snapcenter/spl/bin/spl
+
+
+* 手順 *
+
+. SnapCenter Plug-ins Package for AIXをインストールするAIXホストにログインします。
+. visudo Linuxユーティリティを使用して、/etc/sudoersファイルに次の行を追加します。
++
+[listing, subs="+quotes"]
+----
+Cmnd_Alias HPPACMD = sha224:checksum_value== /home/_AIX_USER_/.sc_netapp/snapcenter_aix_host_plugin.bsx,
+/opt/NetApp/snapcenter/spl/installation/plugins/uninstall, /opt/NetApp/snapcenter/spl/bin/spl
+Cmnd_Alias PRECHECKCMD = sha224:checksum_value== /home/_AIX_USER_/.sc_netapp/AIX_Prechecks.sh
+Cmnd_Alias CONFIGCHECKCMD = sha224:checksum_value== /opt/NetApp/snapcenter/spl/plugins/scu/scucore/configurationcheck/Config_Check.sh
+Cmnd_Alias SCCMD = sha224:checksum_value== /opt/NetApp/snapcenter/spl/bin/sc_command_executor
+_AIX_USER_ ALL=(ALL) NOPASSWD:SETENV: HPPACMD, PRECHECKCMD, CONFIGCHECKCMD, SCCMD
+Defaults: _AIX_USER_ !visiblepw
+Defaults: _AIX_USER_ !requiretty
+----
++
+
+NOTE: RACセットアップを実行している場合は、他の許可されているコマンドとともに、/etc/sudoersファイルに次のように追加します。'/RAC/bin/olsnodes'<crs_home>
+
+
+
+_crs_home_fileの値は、/etc/oracle/olr.loc_fileから取得できます。
+
+_aix_user_は 、作成した root 以外のユーザの名前です。
+
+_checksum_value_は、次の場所にある* sc_unix_plugins_checksum.txt *ファイルから取得できます。
+
+* _C：\ProgramData\NetApp\SnapCenter\Package Repository\SC_UNIX_plugins_checksum.txt_ SnapCenter ServerがWindowsホストにインストールされている場合。
+* _/opt/NetApp/snapcenter/SnapManagerWeb/Repository/sc _ unix_plugins_checksum.txt _ SnapCenterサーバーがLinuxホストにインストールされている場合。
+
+
+
+IMPORTANT: この例は、独自のデータを作成するための参照としてのみ使用してください。

@@ -1,0 +1,50 @@
+---
+permalink: uninstall/task_uninstall_plug_ins_from_a_host_using_the_snapcenter_gui.html 
+sidebar: sidebar 
+keywords: uninstall, gui 
+summary: 個々のプラグインまたはプラグインパッケージが不要になった場合は、 SnapCenter インターフェイスを使用してアンインストールできます。 
+---
+= SnapCenter GUIを使用したプラグインのアンインストール
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+個々のプラグインまたはプラグインパッケージが不要になった場合は、 SnapCenter インターフェイスを使用してアンインストールできます。
+
+.開始する前に
+* アンインストールするプラグインパッケージのリソースグループを削除しておく必要があります。
+* アンインストールするプラグインパッケージのリソースグループに関連付けられているポリシーを解除しておく必要があります。
+
+
+.タスクの内容
+プラグインは個別にアンインストールできます。たとえば、ホストのリソースが不足している場合に、SnapCenter Plug-in for Microsoft SQL Serverをアンインストールして、もっと余裕のあるホストに移動するというケースがあり得ます。プラグインパッケージ全体をアンインストールすることもできます。たとえば、SnapCenter Plug-in for Oracle DatabaseとSnapCenter Plug-in for UNIXが含まれているSnapCenter Plug-ins Package for Linuxのアンインストールが必要になる場合があります。
+
+* ホストを削除するとすべてのプラグインがアンインストールされます。
++
+SnapCenterからホストを削除すると、SnapCenterはホストを削除する前にホスト上のすべてのプラグインパッケージをアンインストールします。
+
+* SnapCenter GUIでは、一度に1つのホストからプラグインが削除されます。
++
+SnapCenter GUIを使用する場合、プラグインをアンインストールできるホストは一度に1つだけです。ただし、複数のアンインストール処理を同時に実行できます。
+
++
+また、 _Uninstall-sSmHostPackage_ コマンドレットと必要なパラメータを使用して、複数のホストからプラグインをアンインストールすることもできます。コマンドレットで使用できるパラメータとその説明については、 RUN_Get-Help コマンド _NAME_ を実行して参照できます。または、を参照することもできます https://docs.netapp.com/us-en/snapcenter-cmdlets/index.html["SnapCenter ソフトウェアコマンドレットリファレンスガイド"^]。
+
+
+
+
+IMPORTANT: SnapCenterサーバがインストールされているホストからSnapCenter Plug-ins Package for Windowsをアンインストールすると、SnapCenterサーバのインストールが破損します。SnapCenterサーバが不要になったことが確実な場合を除き、SnapCenter Plug-ins Package for Windowsをアンインストールしないでください。
+
+.手順
+. 左側のナビゲーションペインで、 * Hosts * （ホスト）をクリックします。
+. [Hosts] ページで、 [*Managed Hosts] をクリックします。
+. [管理対象ホスト]ページで、プラグインまたはプラグインパッケージをアンインストールするホストを選択します。
+. 削除するプラグインの横にある * 削除 * > * 送信 * をクリックします。
+
+
+.終了後
+5分待ってから、そのホストにプラグインを再インストールしてください。この時間は、 SnapCenter GUI が管理対象ホストのステータスを更新するのに十分です。プラグインをすぐに再インストールすると、インストールは失敗します。
+
+Linux 用の SnapCenter Plug-ins パッケージをアンインストールしている場合は、アンインストール固有のログファイルが _ / custom_location / snapcenter / log_ にあります。

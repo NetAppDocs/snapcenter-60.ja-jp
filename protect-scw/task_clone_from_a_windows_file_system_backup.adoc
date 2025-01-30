@@ -1,0 +1,283 @@
+---
+permalink: protect-scw/task_clone_from_a_windows_file_system_backup.html 
+sidebar: sidebar 
+keywords: clone 
+summary: SnapCenter を使用して、 Windows ファイルシステムのバックアップをクローニングすることができます。誤って削除または変更された単一のファイルのコピーが必要な場合は、バックアップをクローニングし、クローン内のファイルを使用できます。 
+---
+= Windowsファイルシステムのバックアップからのクローニング
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+SnapCenter を使用して、 Windows ファイルシステムのバックアップをクローニングすることができます。誤って削除または変更された単一のファイルのコピーが必要な場合は、バックアップをクローニングし、クローン内のファイルを使用できます。
+
+.開始する前に
+* データ保護の準備として、ホストの追加、リソースの特定、Storage Virtual Machine（SVM）接続の作成などのタスクを完了しておく必要があります。
+* ファイルシステムのバックアップを作成しておく必要があります。
+* ボリュームをホストするアグリゲートがStorage Virtual Machine（SVM）の割り当て済みアグリゲートリストに含まれている必要があります。
+* リソースグループはクローニングできません。クローニングできるのは、個々のファイルシステムのバックアップだけです。
+* バックアップがVMDKディスクを使用した仮想マシン上にある場合、SnapCenterは物理サーバにバックアップをクローニングできません。
+* 共有LUNやクラスタ共有ボリューム（CSV）LUNなどのWindowsクラスタをクローニングすると、クローンは指定したホストに専用のLUNとして格納されます。
+* クローニング処理では、ボリュームマウントポイントのルートディレクトリを共有ディレクトリにすることはできません。
+* アグリゲートのホームノード以外のノードにクローンを作成することはできません。
+* Windowsファイルシステムでは、定期的なクローニング（クローンライフサイクル）処理のスケジュールを設定することはできません。バックアップのクローニングはオンデマンドでのみ実行できます。
+* クローンを含むLUNを新しいボリュームに移動すると、SnapCenterはそのクローンをサポートできなくなります。たとえば、SnapCenterを使用してそのクローンを削除することはできません。
+* 複数の環境間でのクローニングは実行できません。たとえば、物理ディスクから仮想ディスクへ、またはその逆のクローンを作成します。
+
+
+.タスクの内容
+* scripts_pathは、プラグインホストのSMCoreServiceHost.exe.ConfigファイルにあるPredefinedWindowsScriptsDirectoryキーを使用して定義します。
++
+必要に応じて、このパスを変更してSMcoreサービスを再起動できます。セキュリティを確保するために、デフォルトのパスを使用することを推奨します。
+
++
+キーの値は、api/4.7/configsettingsを介してスワッガーから表示できます
+
++
+GET APIを使用すると、キーの値を表示できます。Set APIはサポートされていません。
+
+* ONTAP 9.12.1以前のバージョンでは、リストアの一環としてSnapLockヴォールトSnapshotから作成されたクローンにSnapLockヴォールトの有効期限が継承されます。SnapLockの有効期限が過ぎた時点で、ストレージ管理者がクローンを手動でクリーンアップする必要があります。
+
+
+[role="tabbed-block"]
+====
+.SnapCenter UI
+--
+.手順
+. 左側のナビゲーションペインで、 * リソース * をクリックし、リストから適切なプラグインを選択します。
+. リソースページで、リストから * ファイルシステム * を選択します。
+. ホストを選択します。
++
+リソースが保護されている場合は、トポロジビューが自動的に表示されます。
+
+. リソースリストからクローニングするバックアップを選択し、クローニングアイコンをクリックします。
+. [ オプション ] ページで、次の操作を実行します。
++
+|===
+| フィールド | 操作 
+
+
+ a| 
+クローンサーバ
+ a| 
+クローンを作成するホストを選択します。
+
+
+
+ a| 
+「 Auto assign mount point 」または「 Auto assign volume mount point under path 」
+ a| 
+マウントポイントを自動的に割り当てるか、パスを使用してボリュームマウントポイントを自動的に割り当てるかを選択します。
+
+Auto assign volume mount point under path ：マウントポイントを作成する特定のディレクトリのパスを指定できます。このオプションを選択する場合は、ディレクトリが空であることを事前に確認しておく必要があります。ディレクトリにバックアップが格納されている場合、そのバックアップはマウント処理後に無効な状態になります。
+
+
+
+ a| 
+アーカイブの場所
+ a| 
+セカンダリバックアップをクローニングする場合は、アーカイブの場所を選択します。
+
+|===
+. [Script]ページで、実行するプリスクリプトまたはポストスクリプトを指定します。
++
+
+NOTE: プリスクリプトまたはポストスクリプトのパスにドライブまたは共有を含めることはできません。パスはscripts_pathからの相対パスである必要があります。
+
+. 概要を確認し、 [ 完了 ] をクリックします。
+. 操作の進行状況を監視するには、 * Monitor * > * Jobs * をクリックします。
+
+
+--
+.PowerShellコマンドレット
+--
+.手順
+. Open-SmConnectionコマンドレットを使用して、指定したユーザのSnapCenterサーバとの接続セッションを開始します。
++
+[listing]
+----
+Open-SmConnection  -SMSbaseurl  https://snapctr.demo.netapp.com:8146
+----
+. Get-SmBackupコマンドレットまたはGet-SmResourceGroupコマンドレットを使用して、クローニングできるバックアップの一覧を表示します。
++
+次に、使用可能なすべてのバックアップに関する情報を表示する例を示します。
+
++
+[listing]
+----
+C:\PS>PS C:\> Get-SmBackup
+
+BackupId   BackupName                     BackupTime   BackupType
+--------   ----------                     ----------   ----------
+1          Payroll Dataset_vise-f6_08...  8/4/2015     Full Backup
+                                          11:02:32 AM
+
+2          Payroll Dataset_vise-f6_08...  8/4/2015
+                                          11:23:17 AM
+----
++
+この例では、指定したリソースグループとそのリソース、および関連ポリシーに関する情報を表示しています。
+
++
+[listing]
+----
+PS C:\> Get-SmResourceGroup -ListResources –ListPolicies
+
+Description :
+CreationTime : 8/4/2015 3:44:05 PM
+ModificationTime : 8/4/2015 3:44:05 PM
+EnableEmail : False
+EmailSMTPServer :
+EmailFrom :
+EmailTo :
+EmailSubject :
+EnableSysLog : False
+ProtectionGroupType : Backup
+EnableAsupOnFailure : False
+Policies : {FinancePolicy}
+HostResourceMaping : {}
+Configuration : SMCoreContracts.SmCloneConfiguration
+LastBackupStatus :
+VerificationServer :
+EmailBody :
+EmailNotificationPreference : Never
+VerificationServerInfo : SMCoreContracts.SmVerificationServerInfo
+SchedulerSQLInstance :
+CustomText :
+CustomSnapshotFormat :
+SearchResources : False
+ByPassCredential : False
+IsCustomSnapshot :
+MaintenanceStatus : Production
+PluginProtectionGroupTypes : {SMSQL}
+Name : Payrolldataset
+Type : Group
+Id : 1
+Host :
+UserName :
+Passphrase :
+Deleted : False
+Auth : SMCoreContracts.SmAuth
+IsClone : False
+CloneLevel : 0
+ApplySnapvaultUpdate : False
+ApplyRetention : False
+RetentionCount : 0
+RetentionDays : 0
+ApplySnapMirrorUpdate : False
+SnapVaultLabel :
+MirrorVaultUpdateRetryCount : 7
+AppPolicies : {}
+Description : FinancePolicy
+PreScriptPath :
+PreScriptArguments :
+PostScriptPath :
+PostScriptArguments :
+ScriptTimeOut : 60000
+DateModified : 8/4/2015 3:43:30 PM
+DateCreated : 8/4/2015 3:43:30 PM
+Schedule : SMCoreContracts.SmSchedule
+PolicyType : Backup
+PluginPolicyType : SMSQL
+Name : FinancePolicy
+Type :
+Id : 1
+Host :
+UserName :
+Passphrase :
+Deleted : False
+Auth : SMCoreContracts.SmAuth
+IsClone : False
+CloneLevel : 0
+clab-a13-13.sddev.lab.netapp.com
+DatabaseGUID :
+SQLInstance : clab-a13-13
+DbStatus : AutoClosed
+DbAccess : eUndefined
+IsSystemDb : False
+IsSimpleRecoveryMode : False
+IsSelectable : True
+SqlDbFileGroups : {}
+SqlDbLogFiles : {}
+AppFileStorageGroups : {}
+LogDirectory :
+AgName :
+Version :
+VolumeGroupIndex : -1
+IsSecondary : False
+Name : TEST
+Type : SQL Database
+Id : clab-a13-13\TEST
+Host : clab-a13-13.sddev.mycompany.com
+UserName :
+Passphrase :
+Deleted : False
+Auth : SMCoreContracts.SmAuth
+IsClone : False
+----
+. New-SmCloneコマンドレットを使用して、既存のバックアップからクローニング処理を開始します。
++
+この例では、指定したバックアップからすべてのログを含めてクローンを作成しています。
+
++
+[listing]
+----
+PS C:\> New-SmClone
+-BackupName payroll_dataset_vise-f3_08-05-2015_15.28.28.9774
+-Resources @{"Host"="vise-f3.sddev.mycompany.com";
+"Type"="SQL Database";"Names"="vise-f3\SQLExpress\payroll"}
+-CloneToInstance vise-f3\sqlexpress -AutoAssignMountPoint
+-Suffix _clonefrombackup
+-LogRestoreType All -Policy clonefromprimary_ondemand
+
+PS C:> New-SmBackup -ResourceGroupName PayrollDataset -Policy FinancePolicy
+----
++
+この例では、指定したMicrosoft SQL Serverインスタンスのクローンを作成しています。
+
++
+[listing]
+----
+PS C:\> New-SmClone
+-BackupName "BackupDS1_NY-VM-SC-SQL_12-08-2015_09.00.24.8367"
+-Resources @{"host"="ny-vm-sc-sql";"Type"="SQL Database";
+"Names"="ny-vm-sc-sql\AdventureWorks2012_data"}
+-AppPluginCode SMSQL -CloneToInstance "ny-vm-sc-sql"
+-Suffix _CLPOSH -AssignMountPointUnderPath "C:\SCMounts"
+----
+. Get-SmCloneReportコマンドレットを使用して、クローンジョブのステータスを表示します。
++
+この例では、指定したジョブIDのクローンレポートを表示しています。
+
++
+[listing]
+----
+PS C:\> Get-SmCloneReport -JobId 186
+
+SmCloneId : 1
+SmJobId : 186
+StartDateTime : 8/3/2015 2:43:02 PM
+EndDateTime : 8/3/2015 2:44:08 PM
+Duration : 00:01:06.6760000
+Status : Completed
+ProtectionGroupName : Draper
+SmProtectionGroupId : 4
+PolicyName : OnDemand_Clone
+SmPolicyId : 4
+BackupPolicyName : OnDemand_Full_Log
+SmBackupPolicyId : 1
+CloneHostName : SCSPR0054212005.mycompany.com
+CloneHostId : 4
+CloneName : Draper__clone__08-03-2015_14.43.53
+SourceResources : {Don, Betty, Bobby, Sally}
+ClonedResources : {Don_DRAPER, Betty_DRAPER, Bobby_DRAPER,
+                   Sally_DRAPER}
+----
+
+
+コマンドレットで使用できるパラメータとその説明については、 RUN_Get-Help コマンド _NAME_ を実行して参照できます。または、を参照することもできます https://docs.netapp.com/us-en/snapcenter-cmdlets/index.html["SnapCenter ソフトウェアコマンドレットリファレンスガイド"^]。
+
+--
+====

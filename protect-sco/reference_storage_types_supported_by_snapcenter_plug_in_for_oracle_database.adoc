@@ -1,0 +1,90 @@
+---
+permalink: protect-sco/reference_storage_types_supported_by_snapcenter_plug_in_for_oracle_database.html 
+sidebar: sidebar 
+keywords: storage types, iSCSI, NFS, RDM, VMDK, NFS, LVM, ASM, SAN filesystem 
+summary: SnapCenterは、物理マシンと仮想マシンの両方でさまざまなストレージタイプをサポートしています。SnapCenter Plug-ins Package for LinuxまたはSnapCenter Plug-ins Package for AIXをインストールする前に、ストレージタイプがサポートされていることを確認する必要があります。 
+---
+= Plug-in for Oracle Databaseでサポートされるストレージタイプ
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+SnapCenterは、物理マシンと仮想マシンの両方でさまざまなストレージタイプをサポートしています。SnapCenter Plug-ins Package for LinuxまたはSnapCenter Plug-ins Package for AIXをインストールする前に、ストレージタイプがサポートされていることを確認する必要があります。
+
+SnapCenterでは、LinuxおよびAIXのストレージプロビジョニングはサポートされていません。
+
+
+
+== Linuxでサポートされるストレージタイプ
+
+次の表に、Linuxでサポートされるストレージタイプを示します。
+
+|===
+| マシン | ストレージタイプ 
+
+
+ a| 
+物理サーバ
+ a| 
+* FCセツソクLUN
+* iSCSIセツソクLUN
+* NFS接続ボリューム
+* NVMe-FC
+* NVMe / TCP
+
+
+
+
+ a| 
+VMware ESXi
+ a| 
+* FCまたはiSCSI ESXi HBAで接続されたRDM LUN Host Bus Adapter（HBA；ホストバスアダプタ）のスキャンは、SnapCenterがホストに存在するすべてのホストバスアダプタをスキャンするため、完了までに時間がかかることがあります。
++
+/opt/NetApp/SnapCenter /spl/plugins/SCU/scucore /modules/SCU/ConfigU/Config_に ある * LinuxConfig.pm * ファイルを編集して、 * scsi_hosts _optimized_rescan * パラメーターの値を 1 に設定し、 ha_driver_names にリストされている HBA のみを再スキャンすることができます。
+
+* iSCSIイニシエータによってゲストシステムに直接接続されたiSCSI LUN
+* NFSデータストア上のVMDK
+* NVMe/TCP経由で作成されたVMFS上のVMDK
++
+
+NOTE: RACは、共有VMDKをサポートするESX 8.0U2でサポートされます。
+
+* ゲストシステムに直接接続されたNFSボリューム
+* NFSとSANの両方にVVOLデータストアを配置
++
+VVOLデータストアは、ONTAP Tools for VMware vSphereでのみプロビジョニングできます。
+
+
+
+|===
+
+
+== AIXでサポートされるストレージタイプ
+
+次の表に、AIXでサポートされるストレージタイプを示します。
+
+|===
+| マシン | ストレージタイプ 
+
+
+ a| 
+物理サーバ
+ a| 
+* FC接続LUNとiSCSI接続LUN。
++
+SAN環境では、ASM、LVM、およびSANファイルシステムがサポートされます。
+
++
+
+NOTE: AIXおよびファイルシステムでのNFSはサポートされていません。
+
+* 拡張ジャーナリング・ファイル・システム（JFS2）
++
+SANファイルシステムおよびLVMレイアウトでのインラインロギングをサポートします。
+
+
+
+|===
+サポートされるバージョンの最新情報については、を参照 https://imt.netapp.com/matrix/imt.jsp?components=121071;&solution=1259&isHWU&src=IMT["NetApp Interoperability Matrix Tool"] してください。

@@ -1,0 +1,73 @@
+---
+permalink: admin/concept_manage_ems_data_collection.html 
+sidebar: sidebar 
+keywords: EMS data collection 
+summary: PowerShellコマンドレットを使用して、Event Management System（EMS；イベント管理システム）によるデータ収集のスケジュール設定と管理を行うことができます。EMS データ収集では、 SnapCenter サーバ、インストールされている SnapCenter プラグインパッケージ、ホストに関する情報などが収集され、指定した ONTAP Storage Virtual Machine （ SVM ）に送信されます。 
+---
+= EMSデータ収集の管理
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+PowerShellコマンドレットを使用して、Event Management System（EMS；イベント管理システム）によるデータ収集のスケジュール設定と管理を行うことができます。EMSデータ収集では、SnapCenterサーバ、インストールされているSnapCenterプラグインパッケージ、ホストに関する情報などが収集され、指定したONTAP Storage Virtual Machine（SVM）に送信されます。
+
+
+NOTE: データ収集タスクの実行中はシステムのCPU利用率が高くなります。CPU利用率は、データサイズに関係なく、処理の進行中は高いままです。
+
+
+
+== EMSデータ収集の停止
+
+EMSデータ収集はデフォルトで有効になっており、インストール日から7日ごとに実行されます。データ収集は、 PowerShell コマンドレットの _Disable -SmDataCollectionEMS_ を使用していつでも無効にできます。
+
+* 手順 *
+
+. PowerShell コマンドラインから「 _Open-SmConnection_ 」と入力して、 SnapCenter とのセッションを確立します。
+. _Disable-SmDataCollectionEms_ と入力して、 EMS データ収集を無効にします。
+
+
+
+
+== EMSデータ収集の開始
+
+EMSデータ収集はデフォルトで有効になっており、インストール日から7日ごとに実行されるようにスケジュールされています。無効にした場合は、 _Enable-SmDataCollectionEMS_cmdlet を使用して、 EMS データ収集を再開できます。
+
+Data ONTAP event generate-autosupport-log権限がStorage Virtual Machine（SVM）ユーザに付与されている。
+
+* 手順 *
+
+. PowerShell コマンドラインから「 _Open-SmConnection_ 」と入力して、 SnapCenter とのセッションを確立します。
+. EMS データ収集を有効にするには、「 _Enable -SmDataCollectionEMS_ 」と入力します。
+
+
+
+
+== EMSデータ収集のスケジュールとターゲットSVMを変更
+
+PowerShellコマンドレットを使用して、EMSデータ収集のスケジュールやターゲットStorage Virtual Machine（SVM）を変更できます。
+
+* 手順 *
+
+. PowerShell コマンドラインを使用して SnapCenter とのセッションを確立するには、 _Open-SmConnection_cmdlet を入力します。
+. EMS データ収集のターゲットを変更するには、 _Set-SmDataCollectionEmsTarget_cmdlet を入力します。
+. EMS データ収集のスケジュールを変更するには、 _Set-SmDataCollectionEmsSchedule_cmdlet を入力します。
+
+
+
+
+== EMSデータ収集のステータスを監視する
+
+いくつかのPowerShellコマンドレットを使用して、EMSデータ収集のステータスを監視できます。スケジュール、Storage Virtual Machine（SVM）ターゲット、およびステータスに関する情報を取得できます。
+
+* 手順 *
+
+. PowerShell コマンドラインから「 _Open-SmConnection_ 」と入力して、 SnapCenter とのセッションを確立します。
+. _Get-SmDataCollectionEmsSchedule_ と入力して、 EMS データ収集スケジュールに関する情報を取得します。
+. _Get-SmDataCollectionEmsStatus_ と入力して、 EMS データ収集のステータスに関する情報を取得します。
+. _Get-SmDataCollectionEmsTarget_ と入力して、 EMS データ収集ターゲットに関する情報を取得します。
+
+
+.関連情報
+コマンドレットで使用できるパラメータとその説明については、 RUN_Get-Help コマンド _NAME_ を実行して参照できます。または、を参照することもできます https://docs.netapp.com/us-en/snapcenter-cmdlets/index.html["SnapCenter ソフトウェアコマンドレットリファレンスガイド"^]。

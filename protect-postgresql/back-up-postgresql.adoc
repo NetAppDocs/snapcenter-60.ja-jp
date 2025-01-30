@@ -1,0 +1,240 @@
+---
+permalink: protect-postgresql/back-up-postgresql.html 
+sidebar: sidebar 
+keywords: SnapCenter Plug-in for PostgreSQL 
+summary: どのリソースグループにも含まれていないリソースは、のページからバックアップすることができます。 
+---
+= PostgreSQLのバックアップ
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+どのリソースグループにも含まれていないリソースは、のページからバックアップすることができます。
+
+.開始する前に
+* バックアップポリシーを作成しておく必要があります。
+* セカンダリストレージとの SnapMirror 関係があるリソースをバックアップする場合、ストレージユーザに割り当てられた ONTAP ロールには「「 'SnapMirro all' 」権限を含める必要があります。ただし、「 vsadmin 」ロールを使用している場合、「 'SnapMirro all 」権限は必要ありません。
+* Snapshotコピーベースのバックアップ処理の場合は、すべてのテナントクラスタが有効でアクティブであることを確認してください。
+* 休止、Snapshot、および休止解除の処理を実行するプリコマンドとポストコマンドの場合は、該当するコマンドがプラグインホストのコマンドリストで次のパスから使用できるかどうかを確認する必要があります。
++
+** Windowsホストのデフォルトの場所：_C：\Program NetApp SnapCenter SnapCenter Plug-in Creator\etc\allowed_commands.config_
+** Linuxホストのデフォルトの場所：_/opt/linux/scc/etc/allowed_commands.config_ NetApp SnapCenter
+
+
+
+
+
+NOTE: コマンドがコマンドリストに存在しない場合、処理は失敗します。
+
+[role="tabbed-block"]
+====
+.SnapCenter UI
+--
+.手順
+. 左側のナビゲーションペインで、*[リソース]*を選択し、リストから適切なプラグインを選択します。
+. リソースページで、リソースタイプに基づいて *View*] ドロップダウンリストからリソースをフィルタリングします。
++
+を選択しimage:../media/filter_icon.png["フィルタアイコン"]、ホスト名とリソースタイプを選択してリソースをフィルタリングします。その後、を選択してフィルタペインを閉じることができます image:../media/filter_icon.png["フィルタアイコン"] 。
+
+. バックアップするリソースを選択します。
+. [Resource]ページで、*[Use custom name format for Snapshot copy]*を選択し、Snapshot名に使用するカスタムの名前形式を入力します。
++
+たとえば、 _customText_policy_hostname_or_resource_hostname_hostname_1 です。デフォルトでは、Snapshot名にタイムスタンプが追加されます。
+
+. [ アプリケーションの設定 ] ページで、次の操作を行います。
++
+** [Backups]*矢印を選択して、追加のバックアップオプションを設定します。
++
+必要に応じて整合グループのバックアップを有効にし、次のタスクを実行します。
+
++
+|===
+| フィールド | 操作 
+
+
+ a| 
+「整合グループSnapshot」処理が完了するまで待機する時間がある
+ a| 
+Snapshot処理が完了するまでの待機時間を指定するには、* Urgent *、* Medium *、または* Relaxed *を選択します。Urgent = 5秒、Medium = 7秒、Relaxed = 20秒。
+
+
+
+ a| 
+WAFL同期を無効にする
+ a| 
+WAFL整合ポイントを強制しない場合は、このオプションを選択します。
+
+|===
+** [Scripts]*の矢印を選択して、休止、Snapshot、および休止解除の処理のプリコマンドとポストコマンドを実行します。
++
+バックアップ処理を終了する前にPREコマンドを実行することもできます。プリスクリプトとポストスクリプトは SnapCenter サーバで実行されます。
+
+** [**Custom Configurations**]矢印を選択し、このリソースを使用するすべてのジョブに必要なカスタム値のペアを入力します。
+** Snapshotコピーツール*の矢印を選択して、Snapshotを作成するツールを選択します。
++
+|===
+| 状況 | 操作 
+
+
+ a| 
+SnapCenter：ストレージレベルのSnapshotを作成
+ a| 
+ファイルシステムの整合性なしで SnapCenter * を選択します。
+
+
+
+ a| 
+SnapCenterでPlug-in for Windowsを使用してファイルシステムを整合性のある状態にしてからSnapshotを作成する
+ a| 
+ファイルシステムの整合性を維持した状態で SnapCenter を選択します。
+
+
+
+ a| 
+Snapshotを作成するコマンドを入力するには
+ a| 
+[その他]*を選択し、コマンドを入力してSnapshotを作成します。
+
+|===
++
+image:../media/application_settings.gif["アプリケーション設定"]
+
+
+
+. [Policies] ページで、次の手順を実行します。
++
+.. ドロップダウンリストから1つ以上のポリシーを選択します。
++
+
+NOTE: **をクリックしてポリシーを作成することもできますimage:../media/add_policy_from_resourcegroup.gif[""]。
+
++
+[ 選択したポリシーのスケジュールを設定 ] セクションに、選択したポリシーが一覧表示されます。
+
+.. スケジュールを設定するポリシーの[スケジュールの設定]列で**を選択しますimage:../media/add_policy_from_resourcegroup.gif[""]。
+.. [Add schedules for policy_policy_name_]ダイアログボックスで、スケジュールを設定し、*[OK]*を選択します。
++
+_policy_name_は 、選択したポリシーの名前です。
+
++
+設定したスケジュールが[Applied Schedules]列に表示されます。
+
+
+
+. [ 通知 ] ページの [ 電子メールの設定 *] ドロップダウンリストから、電子メールを送信するシナリオを選択します。
++
+また、送信者と受信者のEメールアドレス、およびEメールの件名を指定する必要があります。SMTP は、 * Settings * > * Global Settings * でも設定する必要があります。
+
+. 概要を確認し、*[終了]*を選択します。
++
+リソーストポロジページが表示されます。
+
+. [今すぐバックアップ]*を選択します。
+. Backup （バックアップ）ページで、次の手順を実行します。
++
+.. リソースに複数のポリシーを適用した場合は、 [* Policy] ドロップダウン・リストから、バックアップに使用するポリシーを選択します。
++
+オンデマンドバックアップ用に選択したポリシーにバックアップスケジュールが関連付けられている場合、オンデマンドバックアップは、スケジュールタイプに指定した保持設定に基づいて保持されます。
+
+.. 「 * Backup * 」を選択します。
+
+
+. 操作の進行状況を監視するには、 * Monitor * > * Jobs * をクリックします。
++
+** MetroCluster構成では、フェイルオーバー後にSnapCenterで保護関係を検出できないことがあります。
++
+詳細については、次を参照してください。 https://kb.netapp.com/Advice_and_Troubleshooting/Data_Protection_and_Security/SnapCenter/Unable_to_detect_SnapMirror_or_SnapVault_relationship_after_MetroCluster_failover["MetroClusterのフェイルオーバー後にSnapMirror関係またはSnapVault関係を検出できない"^]
+
+** VMDK上のアプリケーションデータをバックアップする場合に、SnapCenter Plug-in for VMware vSphereのJavaヒープサイズが十分でないと、バックアップが失敗することがあります。
++
+Java のヒープサイズを増やすには、スクリプトファイル /opt/NetApp/init_scripts/scvservice_. を探します。このスクリプトでは、 _DO_START METHOD_Command によって、 SnapCenter VMware プラグインサービスが開始されます。このコマンドを次のように更新します。 _java -jar -Xmx8192M -Xms4096M_
+
+
+
+
+
+--
+.PowerShellコマンドレット
+--
+.手順
+. Open-SmConnectionコマンドレットを使用して、指定したユーザのSnapCenterサーバとの接続セッションを開始します。
++
+[listing]
+----
+PS C:\> Open-SmConnection
+----
++
+ユーザ名とパスワードのプロンプトが表示されます。
+
+. Add-SmResourcesコマンドレットを使用して、手動でリソースを追加します。
++
+次に、PostgreSQLインスタンスを追加する例を示します。
+
++
+[listing]
+----
+PS C:\> Add-SmResource -HostName 10.32.212.13 -PluginCode PostgreSQL -ResourceType Instance -ResourceName postgresqlinst1 -StorageFootPrint (@{"VolumeName"="winpostgresql01_data01";"LUNName"="winpostgresql01_data01";"StorageSystem"="scsnfssvm"}) -MountPoints "D:\"
+----
+. Add-SmPolicyコマンドレットを使用して、バックアップポリシーを作成します。
+. リソースを保護するか、Add-SmResourceGroupコマンドレットを使用してSnapCenterに新しいリソースグループを追加します。
+. New-SmBackupコマンドレットを使用して、新しいバックアップジョブを開始します。
++
+この例は、リソースグループをバックアップする方法を示しています。
+
++
+[listing]
+----
+C:\PS> New-SMBackup -ResourceGroupName 'ResourceGroup_wback-up-clusters-using-powershell-cmdlets-postgresql.adocith_Resources'  -Policy postgresql_policy1
+----
++
+この例では、保護されたリソースをバックアップしています。
+
++
+[listing]
+----
+C:\PS> New-SMBackup -Resources @{"Host"="10.232.204.42";"Uid"="MDC\SID";"PluginName"="postgresql"} -Policy postgresql_policy2
+----
+. Get-smJobSummaryReportコマンドレットを使用して、ジョブのステータス（実行中、完了、失敗）を監視します。
++
+[listing]
+----
+PS C:\> Get-smJobSummaryReport -JobID 123
+----
+. Get-SmBackupReportコマンドレットを使用して、リストアやクローニングの処理を実行するバックアップID、バックアップ名などのバックアップジョブの詳細を監視します。
++
+[listing]
+----
+PS C:\> Get-SmBackupReport -JobId 351
+Output:
+BackedUpObjects           : {DB1}
+FailedObjects             : {}
+IsScheduled               : False
+HasMetadata               : False
+SmBackupId                : 269
+SmJobId                   : 2361
+StartDateTime             : 10/4/2016 11:20:45 PM
+EndDateTime               : 10/4/2016 11:21:32 PM
+Duration                  : 00:00:46.2536470
+CreatedDateTime           : 10/4/2016 11:21:09 PM
+Status                    : Completed
+ProtectionGroupName       : Verify_ASUP_Message_windows
+SmProtectionGroupId       : 211
+PolicyName                : test2
+SmPolicyId                : 20
+BackupName                : Verify_ASUP_Message_windows_scc54_10-04-2016_23.20.46.2758
+VerificationStatus        : NotVerified
+VerificationStatuses      :
+SmJobError                :
+BackupType                : SCC_BACKUP
+CatalogingStatus          : NotApplicable
+CatalogingStatuses        :
+ReportDataCreatedDateTime :
+----
+
+
+コマンドレットで使用できるパラメータとその説明については、 RUN_Get-Help コマンド _NAME_ を実行して参照できます。または、を参照することもできます https://docs.netapp.com/us-en/snapcenter-cmdlets/index.html["SnapCenter ソフトウェアコマンドレットリファレンスガイド"^]。
+
+--
+====

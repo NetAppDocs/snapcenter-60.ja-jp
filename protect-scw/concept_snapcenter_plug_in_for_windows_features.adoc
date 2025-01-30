@@ -1,0 +1,53 @@
+---
+permalink: protect-scw/concept_snapcenter_plug_in_for_windows_features.html 
+sidebar: sidebar 
+keywords: SnapCenter 
+summary: Plug-in for Windowsは、ストレージシステム上でNetApp Snapshotテクノロジと統合されます。Plug-in for Windowsを操作するには、SnapCenterインターフェイスを使用します。 
+---
+= SnapCenter Plug-in for Windowsの機能
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+Plug-in for Windowsは、ストレージシステム上でNetApp Snapshotテクノロジと統合されます。Plug-in for Windowsを操作するには、SnapCenterインターフェイスを使用します。
+
+Plug-in for Windowsの主な機能は次のとおりです。
+
+* * SnapCenter * による統一されたグラフィカル・ユーザー・インターフェイス
++
+SnapCenter のインターフェイスは、すべてのプラグインと環境で標準化され、一貫しています。SnapCenter インターフェイスを使用すると、すべてのプラグインでバックアッププロセスとリストアプロセスを一貫した方法で実行できるほか、ダッシュボードビューで概要を把握したり、ロールベースアクセス制御（ RBAC ）を設定したり、ジョブを監視したりすることができます。SnapCenter では、バックアップ処理とクローニング処理に対応したスケジュールとポリシーの一元管理も可能です。
+
+* * 中央管理の自動化 *
++
+日常的なファイルシステムのバックアップのスケジュールを設定したり、ポリシーベースのバックアップ保持を設定したり、リストア処理をセットアップしたりできます。Eメールアラートを送信するようにSnapCenterを設定して、ファイルシステム環境をプロアクティブに監視することもできます。
+
+* *無停止のNetAppスナップショットテクノロジ*
++
+Plug-in for Windowsでは、NetAppのSnapshotテクノロジを使用しています。これにより、ファイルシステムを数秒でバックアップし、ホストをオフラインにすることなく迅速にリストアすることが可能です。Snapshotはストレージスペースを最小限しか消費しません。
+
+
+
+Plug-in for Windowsには、これらの主要な機能に加えて、次のようなメリットがあります。
+
+* バックアップ、リストア、クローニングのワークフローがサポートされます。
+* RBACでサポートされるセキュリティと一元化されたロール委譲
+* NetApp FlexCloneテクノロジを使用して、テストまたはデータ抽出に使用する本番ファイルシステムのスペース効率に優れたコピーを作成できます。
++
+FlexCloneのライセンス情報については、を参照してください link:../install/concept_snapcenter_licenses.html["SnapCenterライセンス"^]。
+
+* 複数のサーバで同時に複数のバックアップを実行可能
+* PowerShellコマンドレットを使用してバックアップ、リストア、クローニングの処理のスクリプトを作成できます。
+* ファイルシステムと仮想マシンディスク（VMDK）のバックアップがサポートされます。
+* 物理インフラと仮想インフラをサポート
+* iSCSI、ファイバチャネル、FCoE、rawデバイスマッピング（RDM）、非対称LUNマッピング（ALM）、NFSおよびVMFS経由のVMDK、および仮想FCをサポート
+* Windows Server 2022でのNon-Volatile Memory Express（NVMe）のサポート
++
+** NVMe over TCP / IPで作成されたVMDKレイアウト上のバックアップ、リストア、クローニング、検証のワークフロー
+** ESX 8.0 Update 2以降のNVMeファームウェアバージョン1.3をサポートします。Virtualハードウェアバージョン21が必要です。
+** Windows Serverフェイルオーバークラスタリング（WSFC）は、NVMe over TCP/IP上のVMDKを介したアプリケーションではサポートされません。
+
+
+* SnapMirror Active Sync（当初はSnapMirror Business Continuity [SM-BC]としてリリース）をサポート。これにより、サイト全体に障害が発生してもビジネスサービスの運用を継続でき、アプリケーションがセカンダリコピーを使用して透過的にフェイルオーバーできるようになります。SnapMirror Active Syncでフェイルオーバーをトリガーするために、手動操作や追加のスクリプト作成は必要ありません。
+

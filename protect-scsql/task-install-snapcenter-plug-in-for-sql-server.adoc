@@ -1,0 +1,52 @@
+---
+permalink: protect-scsql/task-install-snapcenter-plug-in-for-sql-server.html 
+sidebar: sidebar 
+keywords: credentials 
+summary: SnapCenter Plug-in for Microsoft SQL Serverをインストールする手順について説明します。 
+---
+= SnapCenter Plug-in for Microsoft SQL Serverのインストール
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+SnapCenter Plug-in for Microsoft SQL Serverのインストール手順をまとめたものです。
+
+
+
+== 手順1：Run AsクレデンシャルをセットアップしてPlug-in for Microsoft SQL Serverをインストールする
+
+. 左側のペインで、 * Settings > Credentials > New * をクリックします。
+. クレデンシャルを入力します。
++
+組み込みのドメイン管理者ユーザ名の形式には、 _NetBIOS_<username>_ または _<username>@<domain>_ または _<DomainFQDN>\<username>_ を使用します。
+
++
+組み込みのローカル管理者ユーザ名の形式には、 _<username>_ を使用します。
+
+
+
+
+
+== 手順2：ホストを追加してPlug-in for Microsoft SQL Serverをインストールする
+
+. SnapCenter GUI の左ペインで、 *Hosts > Managed Hosts > Add* の順にクリックします。
+. ウィザードの[Hosts]ページで、次の手順を実行します。
++
+.. Host Type：Windowsホストタイプを選択します。
+.. ホスト名：SQLホストを使用するか、専用のWindowsホストのFQDNを指定します。
+.. Credentials：作成したホストの有効なクレデンシャル名を選択するか、新しいクレデンシャルを作成します。
+
+
+. インストールするプラグインの選択セクションで、 * Microsoft SQL Server * を選択します。
+. [ その他のオプション ] をクリックして、次の詳細を指定します。
++
+.. ポート：デフォルトのポート番号をそのまま使用するか、ポート番号を指定します。
+.. インストールパス：デフォルトのパスは、 _C ： \Program Files\NetApp\SnapManager _ です。必要に応じてパスをカスタマイズできます。
+.. クラスタ内のすべてのホストを追加：WSFCでSQLを使用している場合は、このチェックボックスをオンにします。
+.. インストール前チェックをスキップ：プラグインを手動でインストール済みの場合、またはプラグインをインストールするための要件をホストが満たしているかどうかを検証しない場合は、このチェックボックスをオンにします。
+
+
+. [Submit （送信） ] をクリックします。
+

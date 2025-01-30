@@ -1,0 +1,28 @@
+---
+permalink: protect-sco/task_delete_clone_of_a_pluggable_database.html 
+sidebar: sidebar 
+keywords: delete, PDB, clone PDB 
+summary: 不要になったプラグイン可能データベース \ （ PDB\ ）のクローンは削除できます。 
+---
+= プラガブルデータベースのクローンを削除する
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+不要になった場合は、プラガブルデータベース（PDB）のクローンを削除できます。
+
+PDBがクローニングされるターゲットCDBのバックアップを作成した場合、PDBクローンを削除すると、クローニングされたPDBもターゲットCDBのバックアップから削除されます。
+
+
+NOTE: PDBクローンは、インベントリビューまたはリソースビューに表示されません。
+
+* 手順 *
+
+. 左側のナビゲーションペインで、 * リソース * をクリックし、リストから適切なプラグインを選択します。
+. リソースビューまたはリソースグループビューからソースコンテナデータベース（CDB）を選択します。
+. [ コピーの管理 ] ビューで ' プライマリまたはセカンダリ（ミラーまたはレプリケートされた）ストレージ・システムから [ クローン *] を選択します
+. PDBクローン（targetCDB：PDBClone）を選択し、をクリックします image:../media/delete_icon.gif[""]。
+. [OK]*をクリックします。
+

@@ -1,0 +1,260 @@
+---
+permalink: protect-scsql/task_back_up_sql_resources.html 
+sidebar: sidebar 
+keywords: backup 
+summary: どのリソースグループにも含まれていないリソースは、のページからバックアップすることができます。 
+---
+= SQLリソースのバックアップ
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+どのリソースグループにも含まれていないリソースは、のページからバックアップすることができます。
+
+.タスクの内容
+* Windowsクレデンシャル認証の場合、プラグインのインストール前にクレデンシャルを設定する必要があります。
+* SQL Serverインスタンス認証の場合、プラグインのインストール後にクレデンシャルを追加する必要があります。
+* gMSA 認証の場合 'gMSA を有効にして使用するには '*Add Host* ページまたは *Modify Host* ページで SnapCenter にホストを登録するときに gMSA を設定する必要があります
+* gMSAを使用してホストを追加し、gMSAにログインおよびシステム管理者権限があれば、gMSAからSQLインスタンスへの接続が許可されます。
++
+** SnapCenterは、SQLインスタンスの認証が設定されているかどうかを検証します。認証が設定されている場合、このクレデンシャルを使用してSQLインスタンスにアクセスします。
+** 認証が設定されていない場合は、gMSAを使用してSQLプラグインが現在動作しているかどうかを確認します。プラグインが動作している場合は、SQLインスタンスへの接続の確立に使用されます。
+** SQLインスタンスの両方の認証が設定されておらず、プラグインが動作していない場合、SQLインスタンスはWindowsクレデンシャル認証を介してアクセスされます。
+
+
+
+
+[role="tabbed-block"]
+====
+.SnapCenter UI
+--
+.手順
+. 左側のナビゲーションペインで、*[リソース]*を選択し、リストから適切なプラグインを選択します。
+. リソースページで、 * 表示 * ドロップダウン・リストから * データベース * 、 * インスタンス * 、または * 可用性グループ * を選択します。
++
+.. バックアップするデータベース、インスタンス、または可用性グループを選択します。
++
+インスタンスのバックアップを作成する場合、そのインスタンスの前回のバックアップステータスやタイムスタンプに関する情報はリソースページに表示されません。
+
++
+トポロジビューでは、バックアップステータス、タイムスタンプ、バックアップがインスタンスのものかデータベースのものかを区別できません。
+
+
+
+. [リソース]ページで、[Snapshotコピーのカスタム名形式]*チェックボックスを選択し、Snapshot名に使用するカスタムの名前形式を入力します。
++
+たとえば、customText_policy_hostnameやresource_hostnameなどです。デフォルトでは、Snapshot名にタイムスタンプが追加されます。
+
+. [Policies] ページで、次のタスクを実行します。
++
+.. [Policies] セクションで、ドロップダウンリストから 1 つ以上のポリシーを選択します。
++
+ポリシーを作成するには、**を選択しimage:../media/add_policy_from_resourcegroup.gif[""]てポリシーウィザードを開始します。
+
++
+[ 選択したポリシーのスケジュールを設定する *] セクションに、選択したポリシーが一覧表示されます。
+
+.. スケジュールを設定するポリシーの[スケジュールの設定]列で**を選択しますimage:../media/add_policy_from_resourcegroup.gif[""]。
+.. [ポリシーのスケジュールを追加]* `policy_name` ダイアログボックスで、スケジュールを設定し、*[OK]*を選択します。
++
+ `policy_name`選択したポリシーの名前が表示されます。
+
++
+設定されたスケジュールは、 [* Applied Schedules] 列に表示されます。
+
+.. Microsoft SQL Server スケジューラを使用する * を選択し、スケジューリング・ポリシーに関連付けられているスケジューラ・インスタンス * ドロップダウンリストからスケジューラ・インスタンスを選択します。
+
+
+. [Verification] ページで、次の手順を実行します。
++
+.. [* Verification server*] ドロップダウン・リストから検証サーバを選択します。
++
+検証サーバ（ローカルホストまたはリモートホスト）は複数選択できます。
+
++
+
+NOTE: 検証サーバのバージョンは、プライマリデータベースをホストしているSQL Serverのエディションのバージョン以上である必要があります。
+
+.. セカンダリ・ストレージ・システム上のバックアップを検証するには ' セカンダリ・ロケータをロードを選択します
+.. 検証スケジュールを設定するポリシーを選択し、**を選択しますimage:../media/add_policy_from_resourcegroup.gif[""]。
+.. Add Verification Schedules_policy_name_dialog box で、次の処理を実行します。
++
+|===
+| 状況 | 操作 
+
+
+ a| 
+バックアップ後に検証を実行
+ a| 
+[ バックアップ後に検証を実行 ] を選択します。
+
+
+
+ a| 
+検証のスケジュールを設定
+ a| 
+[ スケジュールされた検証を実行する ] を選択します。
+
+|===
++
+
+NOTE: 検証サーバでストレージ接続が確立されていないと、検証処理は失敗して「 Failed to mount disk 」というエラーメッセージが表示されます。
+
+.. 「* OK *」を選択します。
++
+設定したスケジュールが[Applied Schedules]列に表示されます。
+
+
+
+. [ 通知 ] ページの [ 電子メールの設定 *] ドロップダウンリストから、電子メールを送信するシナリオを選択します。
++
+また、送信者と受信者のEメールアドレス、およびEメールの件名を指定する必要があります。リソースグループで実行された操作のレポートを添付する場合は、 [ ジョブレポートの添付（ Attach Job Report ） ] を選択します。
+
++
+
+NOTE: Eメール通知を使用する場合は、GUIまたはPowerShellコマンドSet-SmSmSmtpServerを使用して、SMTPサーバの詳細を指定しておく必要があります。
+
+. 概要を確認し、*[終了]*を選択します。
++
+データベーストポロジページが表示されます。
+
+. [今すぐバックアップ]*を選択します。
+. Backup （バックアップ）ページで、次の手順を実行します。
++
+.. リソースに複数のポリシーを適用している場合は、「 * Policy * 」ドロップダウン・リストから、バックアップに使用するポリシーを選択します。
++
+オンデマンドバックアップ用に選択したポリシーにバックアップスケジュールが関連付けられている場合、オンデマンドバックアップは、スケジュールタイプに指定した保持設定に基づいて保持されます。
+
+.. 「 * Verify after backup * 」を選択して、バックアップを検証します。
+.. 「 * Backup * 」を選択します。
++
+
+NOTE: WindowsスケジューラまたはSQL Serverエージェントで作成されたバックアップジョブの名前は変更しないでください。
+
++
+オンデマンドバックアップ用に選択したポリシーにバックアップスケジュールが関連付けられている場合、オンデマンドバックアップは、スケジュールタイプに指定した保持設定に基づいて保持されます。
+
++
+暗黙的なリソースグループが作成されます。これを表示するには、[User Access]ページでそれぞれのユーザまたはグループを選択します。暗黙的なリソースグループタイプは「リソース」です。
+
+
+
+. 処理の進捗状況を監視するために、*[監視]*>*[ジョブ]*を選択します。
+
+
+.終了後
+* MetroCluster構成では、フェイルオーバー後にSnapCenterで保護関係を検出できないことがあります。
++
+https://kb.netapp.com/Advice_and_Troubleshooting/Data_Protection_and_Security/SnapCenter/Unable_to_detect_SnapMirror_or_SnapVault_relationship_after_MetroCluster_failover["MetroClusterのフェイルオーバー後にSnapMirror関係またはSnapVault関係を検出できない"]
+
+* VMDK上のアプリケーションデータをバックアップする場合に、SnapCenter Plug-in for VMware vSphereのJavaヒープサイズが十分でないと、バックアップが失敗することがあります。Javaヒープサイズを増やすには、スクリプトファイル/opt/netapp/init_scripts/scvserviceを探します。このスクリプトでは、コマンドによって `do_start method` SnapCenter VMwareプラグインサービスが開始されます。このコマンドを次のように更新し `Java -jar -Xmx8192M -Xms4096M`ます。
+
+
+.関連情報
+link:task_create_backup_policies_for_sql_server_databases.html["SQL Serverデータベースのバックアップポリシーの作成"]
+
+https://kb.netapp.com/Advice_and_Troubleshooting/Data_Protection_and_Security/SnapCenter/Clone_operation_might_fail_or_take_longer_time_to_complete_with_default_TCP_TIMEOUT_value["TCP_TIMEOUTでの遅延が原因で、MySQL接続エラーが発生してバックアップ処理が失敗する"]
+
+https://kb.netapp.com/Advice_and_Troubleshooting/Data_Protection_and_Security/SnapCenter/Backup_fails_with_Windows_scheduler_error["Windowsスケジューラエラーでバックアップが失敗する"]
+
+https://kb.netapp.com/Advice_and_Troubleshooting/Data_Protection_and_Security/SnapCenter/Quiesce_or_grouping_resources_operations_fail["リソースの休止処理またはグループ化処理が失敗する"]
+
+--
+.PowerShellコマンドレット
+--
+.手順
+. Open-SmConnectionコマンドレットを使用して、指定したユーザのSnapCenterサーバとの接続セッションを開始します。
++
+[listing]
+----
+Open-smconnection  -SMSbaseurl  https://snapctr.demo.netapp.com:8146
+----
++
+ユーザ名とパスワードのプロンプトが表示されます。
+
+. Add-SmPolicyコマンドレットを使用して、バックアップポリシーを作成します。
++
+この例では、SQLバックアップタイプがFULLBACKUPの新しいバックアップポリシーを作成しています。
+
++
+[listing]
+----
+PS C:\> Add-SmPolicy -PolicyName TESTPolicy
+-PluginPolicyType SCSQL -PolicyType Backup
+-SqlBackupType FullBackup -Verbose
+----
++
+この例では、WindowsファイルシステムのバックアップタイプがCrashConsistentの新しいバックアップポリシーを作成しています。
+
++
+[listing]
+----
+PS C:\> Add-SmPolicy -PolicyName FileSystemBackupPolicy
+-PluginPolicyType SCW -PolicyType Backup
+-ScwBackupType CrashConsistent -Verbose
+----
+. Get-SmResourcesコマンドレットを使用して、ホストリソースを検出します。
++
+この例では、指定したホストでMicrosoft SQLプラグインのリソースを検出しています。
+
++
+[listing]
+----
+C:\PS>PS C:\> Get-SmResources -HostName vise-f6.sddev.mycompany.com
+-PluginCode SCSQL
+----
++
+この例では、指定したホスト上のWindowsファイルシステムのリソースを検出しています。
+
++
+[listing]
+----
+C:\PS>PS C:\> Get-SmResources -HostName vise2-f6.sddev.mycompany.com
+-PluginCode SCW
+----
+. Add-SmResourceGroupコマンドレットを使用して、SnapCenterに新しいリソースグループを追加します。
++
+この例では、ポリシーとリソースを指定して新しいSQLデータベースバックアップリソースグループを作成しています。
+
++
+[listing]
+----
+PS C:\> Add-SmResourceGroup -ResourceGroupName AccountingResource
+-Resources @{"Host"="visef6.org.com";
+"Type"="SQL Database";"Names"="vise-f6\PayrollDatabase"}
+-Policies "BackupPolicy"
+----
++
+この例では、ポリシーとリソースを指定して新しいWindowsファイルシステムバックアップリソースグループを作成します。
+
++
+[listing]
+----
+PS C:\> Add-SmResourceGroup -ResourceGroupName EngineeringResource
+-PluginCode SCW -Resources @{"Host"="WIN-VOK20IKID5I";
+"Type"="Windows Filesystem";"Names"="E:\"}
+-Policies "EngineeringBackupPolicy"
+----
+. New-SmBackupコマンドレットを使用して、新しいバックアップジョブを開始します。
++
+[listing]
+----
+PS C:> New-SmBackup -ResourceGroupName PayrollDataset -Policy FinancePolicy
+----
+. Get-SmBackupReportコマンドレットを使用して、バックアップジョブのステータスを表示します。
++
+次に、指定した日付に実行されたすべてのジョブのジョブ概要レポートを表示する例を示します。
+
++
+[listing]
+----
+PS C:\> Get-SmJobSummaryReport -Date '1/27/2016'
+----
+
+
+コマンドレットで使用できるパラメータとその説明については、 RUN_Get-Help コマンド _NAME_ を実行して参照できます。または、を参照することもできます https://docs.netapp.com/us-en/snapcenter-cmdlets/index.html["SnapCenter ソフトウェアコマンドレットリファレンスガイド"^]。
+
+--
+====

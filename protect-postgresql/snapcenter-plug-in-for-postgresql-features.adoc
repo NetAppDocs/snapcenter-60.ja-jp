@@ -1,0 +1,48 @@
+---
+permalink: protect-postgresql/snapcenter-plug-in-for-postgresql-features.html 
+sidebar: sidebar 
+keywords: SnapCenter Plug-in for postgresql 
+summary: SnapCenterは、プラグインアプリケーションおよびストレージシステム上でNetAppテクノロジと統合されます。Plug-in for PostgreSQLクラスタを操作するには、SnapCenterグラフィカルユーザインターフェイスを使用します。 
+---
+= SnapCenter Plug-in for PostgreSQLの機能
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+SnapCenterは、プラグインアプリケーションおよびストレージシステム上でNetAppテクノロジと統合されます。Plug-in for PostgreSQL Clusterを操作するには、SnapCenterグラフィカルユーザーインターフェイスを使用します。
+
+* * 統一されたグラフィカル・ユーザー・インターフェイス *
++
+SnapCenter のインターフェイスは、すべてのプラグインと環境で標準化され、一貫しています。SnapCenter インターフェイスを使用すると、すべてのプラグインでバックアップ、リストア、クローニングの各処理を一貫した方法で実行できるほか、ダッシュボードビューで概要を把握したり、ロールベースアクセス制御（ RBAC ）を設定したり、ジョブを監視したりすることができます。
+
+* * 中央管理の自動化 *
++
+バックアップ処理のスケジュールを設定したり、ポリシーベースのバックアップ保持を設定したり、リストア処理を実行したりできます。Eメールアラートを送信するようにSnapCenterを設定して、環境をプロアクティブに監視することもできます。
+
+* *無停止のNetApp Snapshotコピーテクノロジ*
++
+SnapCenterでは、Plug-in for PostgreSQLクラスタでNetAppのSnapshotテクノロジを使用してリソースがバックアップされます。
+
+
+
+Plug-in for PostgreSQLを使用すると、次のようなメリットもあります。
+
+* バックアップ、リストア、クローニングのワークフローがサポートされます。
+* RBACでサポートされるセキュリティと一元化されたロール委譲
++
+クレデンシャルを設定して、許可されたSnapCenterユーザにアプリケーションレベルの権限を付与することもできます。
+
+* NetApp FlexCloneテクノロジを使用して、テストまたはデータ抽出に使用するリソースのスペース効率に優れたポイントインタイムコピーを作成できます。
++
+クローンを作成するストレージシステムにFlexCloneライセンスが必要です。
+
+* バックアップ作成時にONTAPの整合グループ（CG）Snapshot機能がサポートされるようになりました。
+* 複数のリソースホストで同時に複数のバックアップを実行可能
++
+1回の操作で、1つのホスト内のリソースが同じボリュームを共有すると、スナップショットが統合されます。
+
+* 外部コマンドを使用してスナップショットを作成する機能。
+* XFSファイルシステムでのLinux LVMのサポート。
+

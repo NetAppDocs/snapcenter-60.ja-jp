@@ -1,0 +1,47 @@
+---
+permalink: protect-hana/reference_storage_types_supported_by_snapcenter_plug_in_for_sap_hana_database.html 
+sidebar: sidebar 
+keywords: storage types, 
+summary: SnapCenterは、物理マシンと仮想マシン（VM）の両方でさまざまなストレージタイプをサポートしています。SnapCenter Plug-in for SAP HANA Databaseをインストールする前に、ストレージタイプがサポートされていることを確認する必要があります。 
+---
+= SnapCenter Plug-in for SAP HANA Databaseでサポートされるストレージタイプ
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+SnapCenterは、物理マシンと仮想マシン（VM）の両方でさまざまなストレージタイプをサポートしています。SnapCenter Plug-in for SAP HANA Databaseをインストールする前に、ストレージタイプがサポートされていることを確認する必要があります。
+
+|===
+| マシン | ストレージタイプ 
+
+
+ a| 
+物理サーバ
+ a| 
+* FCセツソクLUN
+* iSCSIセツソクLUN
+* NFS接続ボリューム
+
+
+
+
+ a| 
+VMware ESXi
+ a| 
+* FCまたはiSCSI ESXi HBAで接続されたRDM LUN Host Bus Adapter（HBA；ホストバスアダプタ）のスキャンは、SnapCenterがホストに存在するすべてのホストバスアダプタをスキャンするため、完了までに時間がかかることがあります。
++
+/opt/NetApp/SnapCenter /spl/plugins/SCU/scucore /modules/SCU/ConfigU/Config_に ある * LinuxConfig.pm * ファイルを編集して、 * scsi_hosts _optimized_rescan * パラメーターの値を 1 に設定し、 ha_driver_names にリストされている HBA のみを再スキャンすることができます。
+
+* iSCSIイニシエータによってゲストシステムに直接接続されたiSCSI LUN
+* NFSデータストア上のVMDK
+* VMFS上のVMDKが作成されました
+* ゲストシステムに直接接続されたNFSボリューム
+* NFSとSANの両方にVVOLデータストアを配置
++
+VVOLデータストアは、ONTAP Tools for VMware vSphereでのみプロビジョニングできます。
+
+
+
+|===

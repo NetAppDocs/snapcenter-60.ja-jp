@@ -1,0 +1,203 @@
+---
+permalink: protect-sce/task_restore_exchange_databases.html 
+sidebar: sidebar 
+keywords: SnapCenter plug-in for Exchange Server 
+summary: SnapCenterを使用して、バックアップされたExchangeデータベースをリストアできます。 
+---
+= Exchangeデータベースのリストア
+:allow-uri-read: 
+:icons: font
+:imagesdir: ../media/
+
+
+[role="lead"]
+SnapCenterを使用して、バックアップされたExchangeデータベースをリストアできます。
+
+.開始する前に
+* リソースグループ、データベース、またはDatabase Availability Group（DAG；データベース可用性グループ）をバックアップしておく必要があります。
+* Exchangeデータベースを別の場所に移行した場合、古いバックアップに対してリストア処理を実行できません。
+* Snapshotをミラーまたはバックアップにレプリケートする場合は、SnapCenter管理者がユーザにソースボリュームとデスティネーションボリュームの両方にSVMを割り当てておく必要があります。
+* DAGで、アクティブなデータベースコピーがネットアップ以外のストレージにある場合に、NetAppストレージにあるデータベースのパッシブコピーバックアップからリストアするには、そのパッシブコピー（NetAppストレージ）をアクティブコピーとして作成し、リソースを更新してリストア処理を実行します。
++
+コマンドを実行して `Move-ActiveMailboxDatabase` 、データベースのパッシブコピーをアクティブデータベースコピーとして設定します。
+
++
+このコマンドについては、を参照して https://docs.microsoft.com/en-us/powershell/module/exchange/move-activemailboxdatabase?view=exchange-ps["Microsoftのドキュメント"^] ください。
+
+
+
+.タスクの内容
+* データベースに対してリストア処理を実行すると、データベースは同じホストに再度マウントされ、新しいボリュームは作成されません。
+* DAGレベルのバックアップは、個 々 のデータベースからリストアする必要があります。
+* Exchangeデータベース（.edb）ファイル以外のファイルが存在する場合、フルディスクリストアはサポートされません。
++
+Plug-in for Exchangeでは、ディスクにレプリケーションに使用するExchangeファイルなどのExchangeファイルが含まれている場合、ディスク上でフルリストアは実行されません。フルリストアがExchangeの機能に影響を及ぼす可能性がある場合、Plug-in for Exchangeは単一ファイルのリストア処理を実行します。
+
+* Plug-in for Exchangeでは、BitLockerで暗号化されたドライブをリストアできません。
+* scripts_pathは、プラグインホストのSMCoreServiceHost.exe.ConfigファイルにあるPredefinedWindowsScriptsDirectoryキーを使用して定義します。
++
+必要に応じて、このパスを変更してSMcoreサービスを再起動できます。セキュリティを確保するために、デフォルトのパスを使用することを推奨します。
+
++
+キーの値は、api/4.7/configsettingsを介してスワッガーから表示できます
+
++
+GET APIを使用すると、キーの値を表示できます。Set APIはサポートされていません。
+
+* ONTAP 9.12.1以前のバージョンでは、リストアの一環としてSnapLockヴォールトSnapshotから作成されたクローンにSnapLockヴォールトの有効期限が継承されます。SnapLockの有効期限が過ぎた時点で、ストレージ管理者がクローンを手動でクリーンアップする必要があります。
+* SnapMirrorのアクティブな同期のリストア処理では、プライマリの場所からバックアップを選択する必要があります。
+
+
+[role="tabbed-block"]
+====
+.SnapCenter UI
+--
+.手順
+. 左側のナビゲーションペインで、リソースページの左上にある * リソース * をクリックします。
+. ドロップダウンリストからExchange Serverプラグインを選択します。
+. [ リソース ] ページで、 [ 表示 ] リストから [ * データベース * ] を選択します。
+. リストからデータベースを選択します。
+. [Manage Copies]ビューで、[Primary Backups]テーブルから*[Backups]*を選択し、***をクリックしますimage:../media/restore_icon.gif["リストアアイコン"]。
+. [Options]ページで、次のいずれかのログバックアップオプションを選択します。
++
+|===
+| オプション | 製品説明 
+
+
+ a| 
+すべてのログバックアップ
+ a| 
+フルバックアップ後に使用可能なすべてのログバックアップをリストアするには、「 * All log backups * 」を選択して最新の状態へのバックアップリストア処理を実行します。
+
+
+
+ a| 
+次のログバックアップまで：
+ a| 
+「 * までログバックアップ」を選択してポイントインタイムリストア処理を実行します。このリストア処理では、選択したログまでのログバックアップに基づいてデータベースがリストアされます。
+
+
+NOTE: ドロップダウンリストに表示されるログの数は、UTMに基づいています。たとえば、フルバックアップの保持が5でUTM保持が3の場合、使用可能なログバックアップの数は5ですが、ドロップダウンにはリストア処理を実行するためのログが3つだけ表示されます。
+
+
+
+ a| 
+次の日付まで
+ a| 
+リストアしたデータベースにトランザクション・ログを適用する日時を指定するには、 [ 指定の期限まで * ] を選択します。このポイントインタイムリストア処理では、指定した日時の最後のバックアップまで記録されたトランザクションログエントリがリストアされます。
+
+
+
+ a| 
+なし
+ a| 
+ログ・バックアップを行わずにフル・バックアップのみをリストアする必要がある場合は、「 * なし」を選択します。
+
+|===
++
+次のいずれかの操作を実行できます。
+
++
+** * リストア後にデータベースをリカバリしてマウント * - このオプションはデフォルトで選択されています。
+** * リストア前にバックアップ内のトランザクション・ログの整合性を検証しない * - デフォルトでは、 SnapCenter はリストア処理を実行する前にバックアップ内のトランザクション・ログの整合性を検証します。
++
+|===
+
+
+| * ベストプラクティス： * このオプションは選択しないでください。 
+|===
+
+
+. スクリプトページで、リストア処理の前後に実行するプリスクリプトまたはポストスクリプトのパスと引数を入力します。
++
+リストアプレスクリプトの引数には、$Databaseと$ServerInstanceがあります。
+
++
+リストアポストスクリプトの引数には、$Database、$ServerInstance、$BackupName、$LogDirectory、および$TargetServerInstanceがあります。
+
++
+スクリプトを実行して、SNMPトラップの更新、アラートの自動化、ログの送信などを行うことができます。
+
++
+
+NOTE: プリスクリプトまたはポストスクリプトのパスにドライブまたは共有を含めることはできません。パスはscripts_pathからの相対パスである必要があります。
+
+. [ 通知 ] ページの [ 電子メールの設定 *] ドロップダウンリストから、電子メールを送信するシナリオを選択します。
++
+また、送信者と受信者のEメールアドレス、およびEメールの件名を指定する必要があります。
+
+. 概要を確認し、 [ 完了 ] をクリックします。
+. ページ下部の[Activity]パネルを展開すると、リストアジョブのステータスを確認できます。
++
+リストア・プロセスを監視するには、 * Monitor * > * Jobs * ページを使用します。
+
+
+
+バックアップからアクティブデータベースをリストアするときに、レプリカとアクティブデータベースの間に遅延があると、パッシブデータベースが一時停止状態または障害状態になることがあります。
+
+状態の変化は、アクティブデータベースのログチェーンがフォークし、レプリケーションを中断する新しいブランチを開始したときに発生します。Exchange Serverはレプリカの修正を試みますが、修正できない場合は、リストア後に新しいバックアップを作成し、レプリカを再シードする必要があります。
+
+--
+.PowerShellコマンドレット
+--
+.手順
+. コマンドレットを使用して、指定したユーザでSnapCenterサーバとの接続セッションを開始します `Open-SmConnection` 。
++
+[listing]
+----
+Open-smconnection  -SMSbaseurl  https://snapctr.demo.netapp.com:8146/
+----
+. コマンドレットを使用して、リストアする1つ以上のバックアップに関する情報を取得します `Get-SmBackup` 。
++
+次に、使用可能なすべてのバックアップに関する情報を表示する例を示します。
+
++
+[listing]
+----
+PS C:\> Get-SmBackup
+
+BackupId                      BackupName                    BackupTime                    BackupType
+--------                      ----------                    ----------                    ----------
+341                           ResourceGroup_36304978_UTM... 12/8/2017 4:13:24 PM          Full Backup
+342                           ResourceGroup_36304978_UTM... 12/8/2017 4:16:23 PM          Full Backup
+355                           ResourceGroup_06140588_UTM... 12/8/2017 6:32:36 PM          Log Backup
+356                           ResourceGroup_06140588_UTM... 12/8/2017 6:36:20 PM          Full Backup
+----
+. コマンドレットを使用して、バックアップからデータをリストアします `Restore-SmBackup` 。
++
+この例では、最新の状態へのバックアップをリストアしています。
+
++
+[listing]
+----
+C:\PS> Restore-SmBackup -PluginCode SCE -AppObjectId 'sce-w2k12-exch.sceqa.com\sce-w2k12-exch_DB_2' -BackupId 341 -IsRecoverMount:$true
+----
++
+この例では、ポイントインタイムバックアップをリストアしています。
+
++
+[listing]
+----
+C:\ PS> Restore-SmBackup -PluginCode SCE -AppObjectId 'sce-w2k12-exch.sceqa.com\sce-w2k12-exch_DB_2' -BackupId 341 -IsRecoverMount:$true -LogRestoreType ByTransactionLogs -LogCount 2
+----
++
+この例では、セカンダリストレージのバックアップをプライマリストーリーにリストアします。
+
++
+[listing]
+----
+C:\ PS> Restore-SmBackup -PluginCode 'SCE' -AppObjectId 'DB2' -BackupId 81 -IsRecoverMount:$true -Confirm:$false
+-archive @{Primary="paw_vs:vol1";Secondary="paw_vs:vol1_mirror"} -logrestoretype All
+----
++
+パラメータを使用 `-archive` すると、リストアに使用するプライマリボリュームとセカンダリボリュームを指定できます。
+
++
+パラメータを指定する `-IsRecoverMount:$true` と、リストア後にデータベースをマウントできます。
+
+
+
+コマンドレットで使用できるパラメータとその説明については、 RUN_Get-Help コマンド _NAME_ を実行して参照できます。または、を参照することもできます https://docs.netapp.com/us-en/snapcenter-cmdlets/index.html["SnapCenter ソフトウェアコマンドレットリファレンスガイド"^]。
+
+--
+====

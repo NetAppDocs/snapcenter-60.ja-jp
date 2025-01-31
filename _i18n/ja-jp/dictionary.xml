@@ -2616,7 +2616,6 @@
   <block id="23162359b252c2000ad518a55793125e" category="summary">F5、ネットワーク負荷分散、またはAmazon Web Servicesを使用してSnapCenterで高可用性を設定する</block>
   <block id="83e606e7229254f977fc3348f76ce3d4" category="doc">高可用性を実現するためのSnapCenterサーバの設定</block>
   <block id="3f885fa4441e45ab56f7266ba93b9290" category="paragraph">WindowsまたはLinuxで実行されているSnapCenterでハイアベイラビリティ（HA）をサポートするには、F5ロードバランサをインストールします。F5を使用すると、SnapCenterサーバは、同じ場所にある最大2つのホストでアクティブ/パッシブ構成をサポートできます。SnapCenterでF5ロードバランサを使用するには、SnapCenterサーバを設定し、F5ロードバランサを設定する必要があります。</block>
-  <block id="218165c33a5ae5731bf58f9d27c24e62" category="paragraph">SnapCenterの高可用性をセットアップするために、Microsoftネットワークロードバランシング（NLB）を設定することもできます。ハイアベイラビリティ構成にするには、SnapCenterのインストールとは別にNLBを手動で設定する必要があります。</block>
   <block id="08966309e9619d374846ea7cc8ead3ed" category="paragraph">クラウド環境では、Amazon Web Services（AWS）Elastic Load Balancing（ELB）とAzureロードバランサを使用して高可用性を設定できます。</block>
   <block id="134a140044941809d4caf4bac0b38860" category="open-title">F5を使用してハイアベイラビリティを設定する</block>
   <block id="a8c10ef2d3909ca8c562175087de65ba" category="inline-link">F5 ロードバランサを使用して SnapCenter サーバのハイアベイラビリティを設定する方法</block>
@@ -2634,7 +2633,6 @@
   <block id="1ae7e8fbd3510fd41a698f9f0cf2cbf7" category="list-text">MFA設定用のSnapCenterコマンドをすべてのホストで実行する必要があります。証明書利用者の設定は、F5クラスタの詳細を使用してActive Directoryフェデレーションサービス（AD FS）サーバで行う必要があります。MFAを有効にすると、ホストレベルのSnapCenter UIアクセスがブロックされます。</block>
   <block id="8c6cf0affef9a2ff0bd66ef71fffc88b" category="list-text">フェイルオーバー中は、監査ログの設定が2番目のホストに反映されません。したがって、F5パッシブホストがアクティブになったときに、監査ログの設定を手動で繰り返す必要があります。</block>
   <block id="4e85a18a479b8d024339b90999211255" category="open-title">Network Load Balancing（NLB）を使用したハイアベイラビリティの設定</block>
-  <block id="f917fa2002c266a5f8f979e421af9be8" category="paragraph">Microsoftネットワークロードバランシング（NLB）を設定して、SnapCenterの高可用性をセットアップできます。ハイアベイラビリティ構成にするには、SnapCenterのインストールとは別にNLBを手動で設定する必要があります。</block>
   <block id="49caa40f165348b63aaaa8f1de5f4248" category="inline-link">NLB に SnapCenter を設定する方法</block>
   <block id="a55ba9881d51a3c066610f69511dfbec" category="paragraph">SnapCenterを使用したネットワークロードバランシング（NLB）の設定方法については、を参照してください<block ref="7c591114a211d5c4cd3a99a4eda53989" category="inline-link-rx"></block>。</block>
   <block id="033195e6536a96441bcc74661d5c91d2" category="open-title">AWS Elastic Load Balancing（ELB）を使用してハイアベイラビリティを設定</block>
@@ -4699,7 +4697,6 @@
   <block id="03ba6af8c8aacc925daefdecc52c1ced" category="paragraph">Azure NetApp Filesは、バックアップの長期保持にコストがかかるプレミアムストレージソリューションです。コストを最適化するために、Azure NetApp FilesストレージからAzureオブジェクトストアにバックアップを移動できます。SnapCenter 6.0.1以降では、Azure NetApp Files上にあるアプリケーションをAzure Blob Storage（オブジェクトストア）にバックアップおよびクローニングできます。短期的なリカバリ用にAzure NetApp FilesストレージにボリュームSnapshotコピーを2つ、長期的なリカバリ用にAzure Blob Storageにもう1つ、データのコピーを2つ保持できます。</block>
   <block id="20c30f0cc89f35ed825a3cd3d901372c" category="paragraph">Azure NetApp Filesバックアップを含むポリシーが有効でリソースに関連付けられている場合、SnapCenterはボリュームSnapshotの作成とAzure Blob Storageへのバックアップを処理します。SnapCenterによってバックアップヴォールトが作成され、ボリュームのバックアップが有効になります。ボリュームのバックアップを有効にした場合、SnapCenterは既存のバックアップを使用します。</block>
   <block id="e55ea9fc643ab80ebff324b5ff0d6b8d" category="list-text">FASまたはAFF ONTAPおよびFSxNストレージシステムのオブジェクトストレージ機能はサポートされていません。</block>
-  <block id="5b44b7d138d30c112390cba3570d49bf" category="list-text">OracleとSAP HANAのマウントワークフローとカタログワークフローはサポートされていません。</block>
   <block id="1e05d9799692ccd6b7989f741f68ec55" category="list-text">オブジェクトストレージからのバックアップ検証、REST APIのサポート、オブジェクトストレージからのクローンライフサイクル管理、およびオブジェクトストレージバックアップのレポート機能はサポートされていません。</block>
   <block id="c54485c49dccc7921e44c57c0bc07610" category="list-text">Azure Blob Storage上のバックアップからAzure NetApp Filesへのリストアはサポートされていません。クローニングオプションを使用することもできます。</block>
   <block id="c606038e9f060e87fd33c813592804d3" category="list-text">クローンスプリットはサポートされていません。</block>
@@ -9969,4 +9966,8 @@
   <block id="2e27a3162e5343283ad85d26799ba895" category="paragraph">セカンダリレプリケーションでは、SnapLockの有効期限によってプライマリSnapLockの有効期限がロードされます。[Topology]ページの[Refresh]ボタンをクリックすると、ONTAPから取得されたセカンダリおよびプライマリのSnapLock有効期限が更新されます。</block>
   <block id="0d4b1ca327c2b772c70371d81ee9ba8c" category="paragraph">SnapLockがONTAPのセカンダリ（SnapLock Vault）にのみ設定されている場合は、[Topology]ページの[Refresh]ボタンをクリックすると、ONTAPから取得したセカンダリのロック期間が更新されます。</block>
   <block id="fe096510391eb2244a7625318c206713" category="list-text">[Script]ページで、バックアップ処理の前後にSnapCenterサーバで実行するプリスクリプトまたはポストスクリプトのパスと、スクリプトの実行をSnapCenterがタイムアウトするまで待機する時間を入力します。</block>
+  <block id="f9c655f2d65a07a71b2deab50b74ffae" category="paragraph">ネットワークロードバランシング（NLB）を設定してSnapCenterハイアベイラビリティを設定することもできます。ハイアベイラビリティ構成にするには、SnapCenterのインストールとは別にNLBを手動で設定する必要があります。</block>
+  <block id="27c157ca432e76f965ac30465e4a7d94" category="paragraph">SnapCenterハイアベイラビリティを設定するには、ネットワークロードバランシング（NLB）を設定します。ハイアベイラビリティ構成にするには、SnapCenterのインストールとは別にNLBを手動で設定する必要があります。</block>
+  <block id="fc8e535c7339f77157a0f93f32cb1f80" category="list-text">OracleとSAP HANAのマウントワークフローとカタログワークフローは、オブジェクトストレージのバックアップではサポートされませんが、Snapshotではサポートされます。</block>
+  <block id="2128757ca4207f5d5000cd4894d8c58f" category="list-text">Oracle PDBクローンはオブジェクトストレージのバックアップではサポートされませんが、Snapshotではサポートされます。</block>
 </blocks>

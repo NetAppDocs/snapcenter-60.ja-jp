@@ -17,14 +17,14 @@ SnapCenterソフトウェアのリリース6.0には、いくつかの新機能�
 | 更新 | 製品説明 
 
 
-| link:https://docs.netapp.com/us-en/snapcenter/concept/concept_snapcenter_overview.html#snapcenter-plug-ins["NetAppのサポートにより、エンタープライズワークロードのプラグインをサポート"]  a| 
+| link:https://docs.netapp.com/us-en/snapcenter-60/concept/concept_snapcenter_overview.html#snapcenter-plug-ins["NetAppのサポートにより、エンタープライズワークロードのプラグインをサポート"]  a| 
 SnapCenterは、PostgreSQL、MySQL、IBM DB2などのワークロードを管理するためのプラグインを提供します。ワークロードの検出、バックアップ、リストア、マウント、クローニングを自動で実行できます。
 
 SnapCenterには、SAP ASE、SAP MaxDB、MongoDB、Oracleアプリケーション、ONTAPストレージなどのワークロードを管理するためのプラグインも用意されています。ワークロードのバックアップ、リストア、クローニングを実行できます。
 
 
 
-| link:https://docs.netapp.com/us-en/snapcenter/install/install_snapcenter_server_linux.html["クラウドとオンプレミスの両方のワークロードでLinuxバージョンのSnapCenterをサポート"]  a| 
+| link:https://docs.netapp.com/us-en/snapcenter-60/install/install_snapcenter_server_linux.html["クラウドとオンプレミスの両方のワークロードでLinuxバージョンのSnapCenterをサポート"]  a| 
 Red Hat Enterprise Linux（RHEL）、Oracle Linux、SUSE Linux Enterprise Server（SLES）などのLinux用に個別のSnapCenterバイナリを使用できるようになりました。
 
 * Azure NetApp Files、Amazon FSx for NetApp ONTAP、Cloud Volumes ONTAP、ONTAPストレージをサポートします。
@@ -36,17 +36,17 @@ Red Hat Enterprise Linux（RHEL）、Oracle Linux、SUSE Linux Enterprise Server
 
 
 
-| link:https://docs.netapp.com/us-en/snapcenter/concept/concept_snapcenter_overview.html["SnapMirrorアクティブ同期のサポート"]  a| 
+| link:https://docs.netapp.com/us-en/snapcenter-60/concept/concept_snapcenter_overview.html["SnapMirrorアクティブ同期のサポート"]  a| 
 SnapCenterを使用してSnapMirrorのアクティブな同期機能を設定し、データベースやVMware VMのSANワークロードを効率的にバックアップ、リストア、クローニングできるようになりました。これにより、透過的なアプリケーションフェイルオーバーとビジネス継続性が保証されます。
 
 
 
-| link:https://docs.netapp.com/us-en/snapcenter/install/concept_create_and_manage_smb_shares.html["SMB3経由でのMicrosoft SQL Serverのサポート"]  a| 
+| link:https://docs.netapp.com/us-en/snapcenter-60/install/concept_create_and_manage_smb_shares.html["SMB3経由でのMicrosoft SQL Serverのサポート"]  a| 
 SnapCenterを使用して、ONTAP、Azure NetApp Files、Amazon FSx for NetApp ONTAP、Cloud Volumes ONTAPのSMB3プロトコルに導入されたMicrosoft SQL Serverデータベースを保護できるようになりました。
 
 
 
-| link:https://docs.netapp.com/us-en/snapcenter/protect-sco/reference_storage_types_supported_by_snapcenter_plug_in_for_oracle_database.html#storage-types-supported-on-linux["NVMe / TCPのサポート"]  a| 
+| link:https://docs.netapp.com/us-en/snapcenter-60/protect-sco/reference_storage_types_supported_by_snapcenter_plug_in_for_oracle_database.html#storage-types-supported-on-linux["NVMe / TCPのサポート"]  a| 
 SnapCenterでは、アプリケーションとファイルシステムのバックアップとリカバリにNVMe over TCPプロトコルがサポートされるようになりました。
 
 

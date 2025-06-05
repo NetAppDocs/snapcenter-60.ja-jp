@@ -17,12 +17,12 @@ SnapCenterソフトウェアの6.0.1リリースには、いくつかの新機�
 | 更新 | 製品説明 
 
 
-| link:https://docs.netapp.com/us-en/snapcenter/protect-azure/protect-applications-azure-netapp-files.html["Azure NetApp Filesバックアップのサポート"]  a| 
+| link:https://docs.netapp.com/us-en/snapcenter-60/protect-azure/protect-applications-azure-netapp-files.html["Azure NetApp Filesバックアップのサポート"]  a| 
 SnapCenterを使用して、Azure NetApp Files上のアプリケーションをAzure Blob Storage（オブジェクトストア）にバックアップおよびクローニングできるようになりました。
 
 
 
-| link:https://docs.netapp.com/us-en/snapcenter/install/concept_configure_snapcenter_servers_for_high_availabiity_using_f5.html["LinuxテシツコウスルSnapCenterノコウカヨウセイノサホオト"]  a| 
+| link:https://docs.netapp.com/us-en/snapcenter-60/install/concept_configure_snapcenter_servers_for_high_availabiity_using_f5.html["LinuxテシツコウスルSnapCenterノコウカヨウセイノサホオト"]  a| 
 SnapCenterでのHA構成のサポートがLinuxシステムに拡張されました。この構成では、標準のロードバランサを使用できます。
 
 * F5ロードバランサ
@@ -34,12 +34,12 @@ SnapCenterでのHA構成のサポートがLinuxシステムに拡張されまし
 
 
 
-| link:https://docs.netapp.com/us-en/snapcenter/admin/concept_monitor_jobs_schedules_events_and_logs.html#manage-scheduled-backup-jobs["スケジュールされたバックアップジョブの管理機能"]  a| 
+| link:https://docs.netapp.com/us-en/snapcenter-60/admin/concept_monitor_jobs_schedules_events_and_logs.html#manage-scheduled-backup-jobs["スケジュールされたバックアップジョブの管理機能"]  a| 
 スケジュール済みジョブのしきい値を設定して、システムハードウェア構成に基づいて任意の時点で実行するバックアップの数を制御できるようになりました。
 
 
 
-| link:https://docs.netapp.com/us-en/snapcenter/admin/concept_monitor_jobs_schedules_events_and_logs.html#manage-stale-jobs["古いジョブを管理する機能"]  a| 
+| link:https://docs.netapp.com/us-en/snapcenter-60/admin/concept_monitor_jobs_schedules_events_and_logs.html#manage-stale-jobs["古いジョブを管理する機能"]  a| 
 定義済みのスケジュールを設定して、72時間以上停止している古いジョブをクリーンアップできるようになりました。
 
 

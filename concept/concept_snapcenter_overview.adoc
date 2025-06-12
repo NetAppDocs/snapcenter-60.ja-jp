@@ -50,13 +50,7 @@ SnapCenterの主な機能は次のとおりです。
 
 * アプリケーションと整合性のある一元的なデータ保護
 +
-データ保護は、ONTAPシステムで実行されているMicrosoft Exchange Server、Microsoft SQL Server、LinuxまたはAIX上のOracleデータベース、SAP HANAデータベース、IBM DB2、PostgreSQL、MySQL、およびWindowsホストのファイルシステムでサポートされます。
-
-+
-ユーザ定義のSnapCenterプラグインを作成するフレームワークを提供することで、他の標準またはカスタムのアプリケーションやデータベースでもデータ保護がサポートされます。これにより、同じ単一コンソールから他のアプリケーションやデータベースのデータを保護できます。このフレームワークを活用することで、NetAppはMongoDB、Storage、MaxDB、Sybase ASE、ORASCPM向けのSnapCenterプラグインをリリースしました。これとは別に、開発者ガイドを使用して独自のプラグインを作成できます。
-
-+
-link:../protect-scc/develop_a_plug_in_for_your_application.html["アプリケーション用のプラグインを開発"]
+データ保護は、ONTAPシステムで実行されているMicrosoft Exchange Server、Microsoft SQL Server、LinuxまたはAIX上のOracleデータベース、SAP HANAデータベース、IBM DB2、PostgreSQL、MySQL、およびWindowsホストのファイルシステムでサポートされます。SnapCenter は、MongoDB、Storage、MaxDB、Sybase ASE、ORASCPM などのアプリケーションの保護もサポートしています。
 
 * ポリシーベースのバックアップ
 +
@@ -220,7 +214,7 @@ SnapCenter Serverは、Microsoft WindowsとLinuxの両方をサポートして�
 SnapCenter Plug-ins Package for LinuxまたはSnapCenter Plug-ins Package for AIXを使用する場合、スケジュールはQuartzスケジューラを使用して一元的に実行されます。
 
 * SnapCenter Plug-in for Oracle Databaseの場合、SnapCenterサーバホストで実行されるホストエージェントは、LinuxホストまたはAIXホストで実行されるSnapCenter Plug-in Loader（SPL）と通信して、さまざまなデータ保護処理を実行します。
-* SnapCenter Plug-in for SAP HANA DatabaseおよびSnapCenter Custom Plug-insの場合、SnapCenter Serverはホストで実行されるSCCoreエージェントを介してこれらのプラグインと通信します。
+* SAP HANA データベース用の SnapCenter プラグインの場合、SnapCenter サーバはホスト上で実行される SCCore エージェントを介してプラグインと通信します。
 
 
 SnapCenterサーバおよびプラグインは、HTTPSを使用してホストエージェントと通信します。SnapCenter処理に関する情報は、SnapCenterリポジトリに格納されます。
@@ -306,19 +300,6 @@ Plug-ins Package for LinuxおよびPlug-ins Package for Windows
 Plug-in for UNIXまたはPlug-in for Windows
  a| 
 HDBSQLクライアントホスト
- a| 
-LinuxまたはWindows
-
-
-
- a| 
-カスタムプラグイン
- a| 
-Plug-ins Package for LinuxおよびPlug-ins Package for Windows
- a| 
-フアイルシステムノハツクアツフ、Plug-in for Windows
- a| 
-カスタムアプリケーションホスト
  a| 
 LinuxまたはWindows
 
@@ -500,7 +481,7 @@ NetAppでサポートされるプラグインは、MongoDB、ORASCPM（Oracleア
 
 * 他のプラグインをサポートして、他のSnapCenterプラグインでサポートされていないアプリケーションやデータベースを管理します。NetAppでサポートされるプラグインは、SnapCenterのインストールには含まれていません。
 * では、別のボリュームにバックアップセットのミラーコピーを作成し、ディスクツーディスクバックアップレプリケーションを実行できます。
-* Windows環境とLinux環境の両方をサポートします。Windows環境では、カスタムプラグインを使用したカスタムアプリケーションで、必要に応じてSnapCenter Plug-in for Microsoft Windowsを使用してファイルシステムの整合性のあるバックアップを作成できます。
+* Windows と Linux の両方の環境をサポートします。
 
 
 

@@ -9551,4 +9551,5 @@
   <block id="401632ff9d010db44abc6611b886a1fb" category="paragraph">*ベスト プラクティス:* ログアウトして再度ログインするか、新しいブラウザーを開いてSnapCenterユーザー インターフェイスにアクセスします。</block>
   <block id="2894135a685829401e009e2fb1bc8cfe" category="paragraph">SnapCenter にサーバ ホストのステータスが停止として表示される場合は、しばらく待ってから新規検出を実行してください。  *HostRefreshInterval* パラメータの値 (デフォルト値は 3600 秒) を 10 分を超える任意の値に変更することもできます。</block>
   <block id="cc8f8aee65ee74fabf32da5ac0a4b95c" category="list-text">アップグレードが失敗した場合は、失敗したインストールをクリーンアップし、以前のバージョンのSnapCenterを再インストールして、NSM データベースを以前の状態に復元します。</block>
+  <block id="88d9e24753477cfb09f25b21c0a59b9e" category="paragraph">SnapCenterは、Snapshot処理の完了後に、SnapMirrorとSnapVaultに対する更新を実行します。SnapMirrorおよびSnapVault の更新は、 SnapCenterジョブの一部として実行されます。  SnapMirrorアクティブ同期を使用している場合は、 SnapMirrorアクティブ同期と非同期関係の両方に対してデフォルトのSnapMirrorまたはSnapVaultスケジュールを使用します。</block>
 </blocks>

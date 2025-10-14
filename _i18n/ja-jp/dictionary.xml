@@ -3392,7 +3392,6 @@
   <block id="29e256a27c9d420cee02c5cda005de01" category="paragraph">次の表に、各ポートとそのデフォルト値を示します。</block>
   <block id="3672cca688eb0474cd3fee2add1a2067" category="cell">ポートのタイプ</block>
   <block id="4d4690457f78e9e5cbfbcd0e36fbeff0" category="cell">デフォルトポート</block>
-  <block id="ed00b70cc595a411eff2cc42510a291f" category="paragraph">SnapCenterポート</block>
   <block id="b213e31ffc319fa7b61f00a8dfad6e75" category="paragraph">8146（HTTPS）、URL _\https://server:8146_のように双方向、カスタマイズ可能</block>
   <block id="57f72d0cb40826596637a0e2fc16a647" category="paragraph">SnapCenter クライアント（ SnapCenter ユーザ）と SnapCenter サーバ間の通信に使用されます。プラグインホストから SnapCenter サーバへの通信にも使用されます。</block>
   <block id="c90d9871b4b86a10a62cd2bf2c1ea688" category="inline-link">インストールウィザードを使用してSnapCenterサーバをインストールします。</block>
@@ -9552,4 +9551,5 @@
   <block id="cc8f8aee65ee74fabf32da5ac0a4b95c" category="list-text">アップグレードが失敗した場合は、失敗したインストールをクリーンアップし、以前のバージョンのSnapCenterを再インストールして、NSM データベースを以前の状態に復元します。</block>
   <block id="88d9e24753477cfb09f25b21c0a59b9e" category="paragraph">SnapCenterは、Snapshot処理の完了後に、SnapMirrorとSnapVaultに対する更新を実行します。SnapMirrorおよびSnapVault の更新は、 SnapCenterジョブの一部として実行されます。  SnapMirrorアクティブ同期を使用している場合は、 SnapMirrorアクティブ同期と非同期関係の両方に対してデフォルトのSnapMirrorまたはSnapVaultスケジュールを使用します。</block>
   <block id="ea1c96f839915f73d25b910bbc92b734" category="list-text">ONTAP FAS、 AFF、またはASAプライマリおよびセカンダリ システム上に存在し、 NetApp のバックアップおよびリカバリ統合を使用してクラウド内のオブジェクトおよびアーカイブ ストレージに保護されているデータ</block>
+  <block id="e6f36a956625505e0a3733e3e0073fa0" category="paragraph">SnapCenter Webポート</block>
 </blocks>

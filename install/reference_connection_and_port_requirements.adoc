@@ -37,7 +37,7 @@ SnapCenter サーバとアプリケーションまたはデータベースのプ
 
 
  a| 
-SnapCenterポート
+SnapCenter Webポート
  a| 
 8146（HTTPS）、URL _\https://server:8146_のように双方向、カスタマイズ可能
 

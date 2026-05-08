@@ -136,4 +136,10 @@ NOTE: この機能は、ESX 5.5iより前のリリースではサポートされ
 
 FC RDM LUNを使用してMicrosoftクラスタ内のノード間でストレージを共有するには、まず共有クォーラムディスクと共有ストレージディスクを作成し、それらをクラスタ内の両方の仮想マシンに追加する必要があります。
 
-共有ディスクの作成に Plug-in for Windows は使用しません。共有LUNを作成し、クラスタ内の各仮想マシンに追加する必要があります。詳細については、を参照してください https://docs.vmware.com/en/VMware-vSphere/6.7/com.vmware.vsphere.mscs.doc/GUID-1A2476C0-CA66-4B80-B6F9-8421B6983808.html["物理ホスト間で仮想マシンをクラスタ化します"^]。
+共有ディスクの作成にPlug-in for Windowsは使用しません。共有LUNを作成し、クラスタ内の各仮想マシンに追加する必要があります。
+
+
+
+=== 関連情報
+
+ https://techdocs.broadcom.com/["Broadcom技術ドキュメント"^]を参照し、物理ホスト間で仮想マシンをクラスタリングする方法や、Microsoft クラスタ用の共有 FC RDM LUN を作成する方法に関するドキュメントを検索してください。
